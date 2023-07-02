@@ -12,7 +12,7 @@ import com.example.starwarsapp.domain.models.SpeciesEntity
 interface SpeciesDao {
 
     @Query("SELECT * FROM species_table")
-    suspend fun getSpecies(): List<SpeciesEntity>
+    fun getSpecies(): PagingSource<Int, SpeciesEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addSpecies(species: List<SpeciesEntity>)
@@ -22,4 +22,7 @@ interface SpeciesDao {
 
     @Query("SELECT * FROM species_table WHERE name = :name ")
     suspend fun getSpeciesById(name: String): SpeciesEntity
+
+    @Query("SELECT * FROM species_table WHERE name IN (:name)")
+    suspend fun getExtraSpecies(name: List<String>): List<SpeciesEntity>
 }

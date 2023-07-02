@@ -6,28 +6,30 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarsapp.domain.repository.FilmRepository
+import com.example.starwarsapp.domain.repository.PersonRepository
 import com.example.starwarsapp.presentation.FilmStates
+import com.example.starwarsapp.presentation.PersonStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilmViewModel @Inject constructor(
-    private val repository: FilmRepository,
+class PersonViewModel @Inject constructor(
+    private val repository: PersonRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val _film = mutableStateOf<FilmStates>(FilmStates.Loading)
-    val film: State<FilmStates> = _film
+    private val _person = mutableStateOf<PersonStates>(PersonStates.Loading)
+    val person: State<PersonStates> = _person
 
     init {
-        savedStateHandle.get<String>("filmId")?.let { filmById(it) }
+        savedStateHandle.get<String>("personId")?.let { personById(it) }
     }
 
-    private fun filmById(filmId: String){
+    private fun personById(personId: String){
         viewModelScope.launch{
-            val result = repository.getFilms(filmId)
-            _film.value = FilmStates.Success(films = result)
+            val result = repository.getPerson(personId)
+            _person.value = PersonStates.Success(data = result)
         }
     }
 }

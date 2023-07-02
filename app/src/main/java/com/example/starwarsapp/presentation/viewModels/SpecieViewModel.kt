@@ -6,28 +6,30 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarsapp.domain.repository.FilmRepository
+import com.example.starwarsapp.domain.repository.SpecieRepository
 import com.example.starwarsapp.presentation.FilmStates
+import com.example.starwarsapp.presentation.SpeciesStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilmViewModel @Inject constructor(
-    private val repository: FilmRepository,
+class SpecieViewModel @Inject constructor(
+    private val repository: SpecieRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
-    private val _film = mutableStateOf<FilmStates>(FilmStates.Loading)
-    val film: State<FilmStates> = _film
+    private val _specie = mutableStateOf<SpeciesStates>(SpeciesStates.Loading)
+    val specie: State<SpeciesStates> = _specie
 
     init {
-        savedStateHandle.get<String>("filmId")?.let { filmById(it) }
+        savedStateHandle.get<String>("specieId")?.let { specieById(it) }
     }
 
-    private fun filmById(filmId: String){
+    private fun specieById(specieId: String){
         viewModelScope.launch{
-            val result = repository.getFilms(filmId)
-            _film.value = FilmStates.Success(films = result)
+            val result = repository.getSpecies(specieId)
+            _specie.value = SpeciesStates.Success(data = result)
         }
     }
 }

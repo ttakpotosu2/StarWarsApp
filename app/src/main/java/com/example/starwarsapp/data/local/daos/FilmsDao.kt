@@ -7,12 +7,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.starwarsapp.domain.models.FilmsEntity
 import com.example.starwarsapp.domain.models.PeopleEntity
+import com.example.starwarsapp.domain.models.SpeciesEntity
 
 @Dao
 interface FilmsDao {
 
     @Query("SELECT * FROM films_table")
-    suspend fun getFilms(): List<FilmsEntity>
+    fun getFilms(): PagingSource<Int, FilmsEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFilms(films: List<FilmsEntity>)
@@ -22,4 +23,7 @@ interface FilmsDao {
 
     @Query("SELECT * FROM films_table WHERE title = :title ")
     suspend fun getFilmsById(title: String): FilmsEntity
+
+    @Query("SELECT * FROM films_table WHERE title IN (:name)")
+    suspend fun getExtraFilms(name: List<String>): List<FilmsEntity>
 }

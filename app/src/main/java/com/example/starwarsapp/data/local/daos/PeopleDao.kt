@@ -6,12 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.starwarsapp.domain.models.PeopleEntity
+import com.example.starwarsapp.domain.models.SpeciesEntity
 
 @Dao
 interface PeopleDao {
 
     @Query("SELECT * FROM people_table")
-    suspend fun getPeople(): List<PeopleEntity>
+    fun getPeople(): PagingSource<Int, PeopleEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addPeople(people: List<PeopleEntity>)
@@ -21,4 +22,7 @@ interface PeopleDao {
 
     @Query("SELECT * FROM people_table WHERE name = :name ")
     suspend fun getPeopleById(name: String): PeopleEntity
+
+    @Query("SELECT * FROM people_table WHERE name IN (:name)")
+    suspend fun getExtraPeople(name: List<String>): List<PeopleEntity>
 }

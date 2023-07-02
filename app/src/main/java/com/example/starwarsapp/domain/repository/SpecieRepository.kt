@@ -9,29 +9,23 @@ import com.example.starwarsapp.domain.models.StarshipsEntity
 import com.example.starwarsapp.domain.models.VehiclesEntity
 import javax.inject.Inject
 
-data class FilmInfo(
-    val film: FilmsEntity,
-    val species: List<SpeciesEntity>,
-    val starships: List<StarshipsEntity>,
-    val vehicles: List<VehiclesEntity>,
-    val characters: List<PeopleEntity>,
-    val planets: List<PlanetsEntity>
+data class SpecieInfo(
+    val specie: SpeciesEntity,
+    val films: List<FilmsEntity>,
+    val characters: List<PeopleEntity>
 )
 
-class FilmRepository @Inject constructor(
+class SpecieRepository @Inject constructor(
     private val database: StarWarsDatabase
 ) {
 
-    suspend fun getFilms(filmsId: String): FilmInfo {
-        val film = database.filmsDao().getFilmsById(filmsId)
-        val species = database.speciesDao().getExtraSpecies(film.species)
-        val starships = database.starshipsDao().getExtraStarships(film.starships)
-        val vehicles = database.vehiclesDao().getExtraVehicles(film.vehicles)
-        val characters = database.peopleDao().getExtraPeople(film.characters)
-        val planets = database.planetsDao().getExtraPlanets(film.planets)
+    suspend fun getSpecies(specieId: String): SpecieInfo {
+        val specie = database.speciesDao().getSpeciesById(specieId)
+        val films = database.filmsDao().getExtraFilms(specie.films)
+        val characters = database.peopleDao().getExtraPeople(specie.people)
 
-        return FilmInfo(
-            film, species, starships, vehicles, characters, planets
+        return SpecieInfo(
+            specie, films, characters
         )
     }
 }
