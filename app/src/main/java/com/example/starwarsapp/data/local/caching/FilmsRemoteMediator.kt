@@ -25,7 +25,6 @@ class FilmsRemoteMediator @Inject constructor(
         state: PagingState<Int, FilmsEntity>
     ): MediatorResult {
         return try {
-
             val currentPage = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)

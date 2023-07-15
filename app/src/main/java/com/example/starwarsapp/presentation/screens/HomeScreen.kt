@@ -31,13 +31,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
 import com.example.starwarsapp.ui.theme.TextGreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navHostController: NavHostController) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -52,7 +54,7 @@ fun HomeScreen() {
                     width = 2.dp,
                     shape = CutCornerShape(bottomEnd = 50.dp)
                 ),
-                content = { DrawerContent() }
+                content = { DrawerContent(navHostController) }
             )
         }
     ) {
@@ -113,7 +115,7 @@ fun HomeScreenTopBar(
 
 @Composable
 fun DrawerContent(
-    //   navHostController: NavHostController
+    navHostController: NavHostController
 ) {
     val style = TextStyle(
         fontSize = 42.sp,
@@ -134,7 +136,10 @@ fun DrawerContent(
             )
         )
         Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Films", style = style)
+        Text(
+            text = "Films",
+            style = style,
+            modifier = Modifier.clickable { navHostController.navigate(Screen.FilmsScreen.route) })
         Text(text = "People", style = style)
         Text(text = "Planets", style = style)
         Text(text = "Species", style = style)
