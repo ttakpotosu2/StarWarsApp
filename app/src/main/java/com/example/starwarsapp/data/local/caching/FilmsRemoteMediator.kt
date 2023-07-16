@@ -30,14 +30,6 @@ class FilmsRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.next?.minus(1) ?: 1
                 }
-                LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prev
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
-                }
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
@@ -46,16 +38,19 @@ class FilmsRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
+                else -> {
+                    1
+                }
             }
 
             val response = api.getFilms(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     FilmsRemoteKeys(
                         id = it.title,
                         prev = prevPage,
@@ -64,7 +59,7 @@ class FilmsRemoteMediator @Inject constructor(
                 }
 
                 filmsRemoteKeysDao.addFilmsRemoteKeys(remoteKeys = keys)
-                filmsDao.addFilms(films = response.map { it.toFilmsEntity()})
+                filmsDao.addFilms(films = response.results.map { it.toFilmsEntity()})
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
@@ -81,13 +76,6 @@ class FilmsRemoteMediator @Inject constructor(
                 filmsRemoteKeysDao.getFilmsRemoteKeys(id = it.title)
             }
         }
-    }
-
-    private fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, FilmsEntity>
-    ): FilmsRemoteKeys? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { filmsRemoteKeysDao.getFilmsRemoteKeys(id = it.title) }
     }
 
     private fun getRemoteKeyForLastItem(

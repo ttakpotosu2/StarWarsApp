@@ -35,6 +35,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.example.starwarsapp.presentation.FilmsListCard
 import com.example.starwarsapp.presentation.layoutModifiers
+import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.presentation.viewModels.FilmsViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
@@ -47,7 +48,7 @@ fun FilmsScreen(
     viewModel: FilmsViewModel = hiltViewModel()
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val film = viewModel.getFilms.collectAsLazyPagingItems()
+    val films = viewModel.getFilms.collectAsLazyPagingItems()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -65,7 +66,9 @@ fun FilmsScreen(
         }
     ) {
         Scaffold(
-            modifier = Modifier.fillMaxSize().background(BackgroundGreen),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BackgroundGreen),
             topBar = { FilmsScreenTopBar(onclick = { TODO() }) },
         ) {
             Column(
@@ -90,12 +93,14 @@ fun FilmsScreen(
                         Modifier.padding(16.dp)
                     ) {
                         items(
-                            count = film.itemCount,
-                            key = film.itemKey { it.title },
-                            contentType = film.itemContentType()
+                            count = films.itemCount,
+                            key = films.itemKey { it.title },
+                            contentType = films.itemContentType()
                         ) {index ->
-                            val data = film[index]
-                            data?.let { FilmsListCard(film = it, onClick = {}) }
+                            val data = films[index]
+                            data?.let { FilmsListCard(film = it, onClick = {
+                                navHostController.navigate(Screen.FilmDetailScreen.route + "/${data.title}")
+                            }) }
                         }
                     }
                 }
@@ -115,7 +120,9 @@ fun FilmsScreenTopBar(
         Icon(
             imageVector = Icons.Outlined.Menu,
             contentDescription = null,
-            modifier = Modifier.size(50.dp).clickable { onclick() },
+            modifier = Modifier
+                .size(50.dp)
+                .clickable { onclick() },
             tint = TextGreen,
             )
         Spacer(modifier = Modifier.weight(1f))

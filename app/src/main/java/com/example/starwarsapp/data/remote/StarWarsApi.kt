@@ -1,6 +1,7 @@
 package com.example.starwarsapp.data.remote
 
 import com.example.starwarsapp.data.models.Films
+import com.example.starwarsapp.data.models.PagedResponse
 import com.example.starwarsapp.data.models.People
 import com.example.starwarsapp.data.models.Planets
 import com.example.starwarsapp.data.models.Species
@@ -18,7 +19,7 @@ interface StarWarsApi {
     suspend fun getPlanets(@Query("page") page: String): List<Planets>
 
     @GET("films/")
-    suspend fun getFilms(@Query("page") page: String): List<Films>
+    suspend fun getFilms(@Query("page") page: String): PagedResponse<Films>
 
     @GET("species/")
     suspend fun getSpecies(@Query("page") page: String): List<Species>

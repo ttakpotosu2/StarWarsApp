@@ -21,7 +21,6 @@ data class FilmInfo(
 class FilmRepository @Inject constructor(
     private val database: StarWarsDatabase
 ) {
-
     suspend fun getFilms(filmsId: String): FilmInfo {
         val film = database.filmsDao().getFilmsById(filmsId)
         val species = database.speciesDao().getExtraSpecies(film.species)
