@@ -53,23 +53,23 @@ abstract class StarWarsDatabase : RoomDatabase() {
     abstract fun peopleDao(): PeopleDao
     abstract fun peopleRemoteKeysDao(): PeopleRemoteKeysDao
 
-    //People
+    //Films
     abstract fun filmsDao(): FilmsDao
     abstract fun filmsRemoteKeysDao(): FilmsRemoteKeysDao
 
-    //People
+    //Planets
     abstract fun planetsDao(): PlanetsDao
     abstract fun planetsRemoteKeysDao(): PlanetsRemoteKeysDao
 
-    //People
+    //Species
     abstract fun speciesDao(): SpeciesDao
     abstract fun speciesRemoteKeysDao(): SpeciesRemoteKeysDao
 
-    //People
+    //Starships
     abstract fun starshipsDao(): StarshipsDao
     abstract fun starshipsRemoteKeysDao(): StarshipsRemoteKeysDao
 
-    //People
+    //Vehicles
     abstract fun vehiclesDao(): VehiclesDao
     abstract fun vehiclesRemoteKeysDao(): VehiclesRemoteKeysDao
 }

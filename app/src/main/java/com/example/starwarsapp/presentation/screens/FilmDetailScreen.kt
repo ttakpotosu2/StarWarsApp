@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.starwarsapp.presentation.FilmCharactersDialog
 import com.example.starwarsapp.presentation.FilmCrawlDialog
 import com.example.starwarsapp.presentation.FilmStates
 import com.example.starwarsapp.presentation.layoutModifiers
@@ -130,7 +129,7 @@ fun FilmDetailScreen(
                                 text = "Characters",
                                 style = style,
                                 modifier = Modifier.clickable {
-                                    showDialog.value = true
+
                                 }
                             )
 //                            if (showDialog.value){

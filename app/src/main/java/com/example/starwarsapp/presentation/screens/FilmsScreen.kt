@@ -96,11 +96,18 @@ fun FilmsScreen(
                             count = films.itemCount,
                             key = films.itemKey { it.title },
                             contentType = films.itemContentType()
-                        ) {index ->
+                        ) { index ->
                             val data = films[index]
-                            data?.let { FilmsListCard(film = it, onClick = {
-                                navHostController.navigate(Screen.FilmDetailScreen.route + "/${data.title}")
-                            }) }
+                            data?.let {
+                                FilmsListCard(
+                                    film = it,
+                                    onClick = {
+                                        navHostController.navigate(
+                                            Screen.FilmDetailScreen.route + "/${data.title}"
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -124,7 +131,7 @@ fun FilmsScreenTopBar(
                 .size(50.dp)
                 .clickable { onclick() },
             tint = TextGreen,
-            )
+        )
         Spacer(modifier = Modifier.weight(1f))
     }
 }
