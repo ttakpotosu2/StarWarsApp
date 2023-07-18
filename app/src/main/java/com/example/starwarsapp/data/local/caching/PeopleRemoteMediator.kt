@@ -31,14 +31,6 @@ class PeopleRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.next?.minus(1) ?: 1
                 }
-                LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prev
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
-                }
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
@@ -47,16 +39,19 @@ class PeopleRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
+                else -> {
+                    1
+                }
             }
 
             val response = api.getPeople(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     PeopleRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -65,7 +60,7 @@ class PeopleRemoteMediator @Inject constructor(
                 }
 
                 peopleRemoteKeysDao.addPeopleRemoteKeys(remoteKeys = keys)
-                peopleDao.addPeople(people = response.map { it.toPeopleEntity() })
+                peopleDao.addPeople(people = response.results.map { it.toPeopleEntity() })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
@@ -82,13 +77,6 @@ class PeopleRemoteMediator @Inject constructor(
                 peopleRemoteKeysDao.getPeopleRemoteKeys(id = it.name)
             }
         }
-    }
-
-    private fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, PeopleEntity>
-    ): PeopleRemoteKeys? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { peopleRemoteKeysDao.getPeopleRemoteKeys(id = it.name) }
     }
 
     private fun getRemoteKeyForLastItem(

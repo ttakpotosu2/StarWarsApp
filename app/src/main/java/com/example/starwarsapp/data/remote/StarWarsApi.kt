@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface StarWarsApi {
 
     @GET("people/")
-    suspend fun getPeople(@Query("page") page: String): List<People>
+    suspend fun getPeople(@Query("page") page: String): PagedResponse<People>
 
     @GET("planets/")
     suspend fun getPlanets(@Query("page") page: String): List<Planets>
