@@ -50,13 +50,13 @@ class PlanetsRemoteMediator @Inject constructor(
             }
 
             val response = api.getPlanets(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     PlanetsRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -65,7 +65,7 @@ class PlanetsRemoteMediator @Inject constructor(
                 }
 
                 planetsRemoteKeysDao.addPlanetsRemoteKeys(remoteKeys = keys)
-                planetsDao.addPlanets(planets = response.map { it.toPlanetsEntity()})
+                planetsDao.addPlanets(planets = response.results.map { it.toPlanetsEntity()})
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

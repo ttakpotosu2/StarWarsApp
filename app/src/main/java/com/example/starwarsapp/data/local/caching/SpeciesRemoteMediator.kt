@@ -50,13 +50,13 @@ class SpeciesRemoteMediator @Inject constructor(
             }
 
             val response = api.getSpecies(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     SpeciesRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -65,7 +65,7 @@ class SpeciesRemoteMediator @Inject constructor(
                 }
 
                 speciesRemoteKeysDao.addSpeciesRemoteKeys(remoteKeys = keys)
-                speciesDao.addSpecies(species = response.map { it.toSpeciesEntity()})
+                speciesDao.addSpecies(species = response.results.map { it.toSpeciesEntity()})
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

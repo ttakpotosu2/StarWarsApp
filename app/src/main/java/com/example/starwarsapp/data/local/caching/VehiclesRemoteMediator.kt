@@ -50,13 +50,13 @@ class VehiclesRemoteMediator @Inject constructor(
             }
 
             val response = api.getVehicles(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     VehiclesRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -65,7 +65,7 @@ class VehiclesRemoteMediator @Inject constructor(
                 }
 
                 vehiclesRemoteKeysDao.addVehiclesRemoteKeys(remoteKeys = keys)
-                vehiclesDao.addVehicle(vehicles = response.map { it.toVehiclesEntity()})
+                vehiclesDao.addVehicle(vehicles = response.results.map { it.toVehiclesEntity()})
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

@@ -42,7 +42,7 @@ import com.example.starwarsapp.ui.theme.TextGreen
 fun HomeScreen(navHostController: NavHostController) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    //val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -59,7 +59,7 @@ fun HomeScreen(navHostController: NavHostController) {
         }
     ) {
         Scaffold(
-            topBar = { HomeScreenTopBar(onclick = { TODO() }) },
+            topBar = { HomeScreenTopBar(onclick = {  }) },
         ) {
             HomeScreenContent()
         }

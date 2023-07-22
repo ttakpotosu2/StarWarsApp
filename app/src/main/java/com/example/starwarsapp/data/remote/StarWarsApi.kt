@@ -16,18 +16,18 @@ interface StarWarsApi {
     suspend fun getPeople(@Query("page") page: String): PagedResponse<People>
 
     @GET("planets/")
-    suspend fun getPlanets(@Query("page") page: String): List<Planets>
+    suspend fun getPlanets(@Query("page") page: String): PagedResponse<Planets>
 
     @GET("films/")
     suspend fun getFilms(@Query("page") page: String): PagedResponse<Films>
 
     @GET("species/")
-    suspend fun getSpecies(@Query("page") page: String): List<Species>
+    suspend fun getSpecies(@Query("page") page: String): PagedResponse<Species>
 
     @GET("vehicles/")
-    suspend fun getVehicles(@Query("page") page: String): List<Vehicles>
+    suspend fun getVehicles(@Query("page") page: String): PagedResponse<Vehicles>
 
     @GET("starships/")
-    suspend fun getStarships(@Query("page") page: String): List<Starships>
+    suspend fun getStarships(@Query("page") page: String): PagedResponse<Starships>
 
 }

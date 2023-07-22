@@ -69,7 +69,7 @@ fun FilmsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(BackgroundGreen),
-            topBar = { FilmsScreenTopBar(onclick = { TODO() }) },
+            topBar = { FilmsScreenTopBar(onclick = {  }) },
         ) {
             Column(
                 modifier = Modifier

@@ -50,13 +50,13 @@ class StarshipsRemoteMediator @Inject constructor(
             }
 
             val response = api.getStarships(currentPage.toString())
-            val endOfPaginationReached = response.isEmpty()
+            val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             database.withTransaction {
-                val keys = response.map {
+                val keys = response.results.map {
                     StarshipsRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -65,7 +65,7 @@ class StarshipsRemoteMediator @Inject constructor(
                 }
 
                 starshipsRemoteKeysDao.addStarshipsRemoteKeys(remoteKeys = keys)
-                starshipsDao.addStarships(starships = response.map { it.toStarshipsEntity()})
+                starshipsDao.addStarships(starships = response.results.map { it.toStarshipsEntity()})
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
