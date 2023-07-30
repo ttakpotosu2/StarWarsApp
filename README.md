@@ -8,7 +8,7 @@ Tech Stach
 5. Paging 3
 6. Jetpack Compose
 
-## Screenshots posted below. [Project is currently being built, more screenshot wull be added in due time.]
+## Screenshots posted below. [Project is currently being built, more screenshot will be added in due time.]
 
 ![1](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/2daf1fca-8d3d-4bd6-abac-96738cb01580)
 ![3](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/0d877049-3143-4d60-a5bc-52d34ce4b9bf)
