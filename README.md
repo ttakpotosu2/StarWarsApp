@@ -8,5 +8,7 @@ Tech Stach
 6. Jetpack Compose
 
 Screenshots posted below. [Project is currently being built, more screenshot wull be added in due time.]
-![1](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/0387d8a0-88c7-4057-9655-2f76da2e056f)
-![2](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/6a0f5cc2-82bb-4140-a661-d169069fd419)
+
+![1](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/2daf1fca-8d3d-4bd6-abac-96738cb01580)
+![3](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/0d877049-3143-4d60-a5bc-52d34ce4b9bf)
+![2](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/1dd1701e-42a3-4a1f-878f-fa3aa7307bd7)
