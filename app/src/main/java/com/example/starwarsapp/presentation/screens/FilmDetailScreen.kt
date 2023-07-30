@@ -31,6 +31,7 @@ import androidx.navigation.NavHostController
 import com.example.starwarsapp.presentation.FilmCrawlDialog
 import com.example.starwarsapp.presentation.FilmStates
 import com.example.starwarsapp.presentation.layoutModifiers
+import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.presentation.viewModels.FilmViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
@@ -98,7 +99,7 @@ fun FilmDetailScreen(
                             modifier = Modifier.padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(24.dp)
                         ) {
-                            val showDialog = remember { mutableStateOf(false) }
+                            val showCrawlDialog = remember { mutableStateOf(false) }
 
                             Text(
                                 text = "Directed by: " + film.data.film.director,
@@ -116,36 +117,42 @@ fun FilmDetailScreen(
                                 text = "Read opening crawl",
                                 style = style,
                                 modifier = Modifier.clickable {
-                                    showDialog.value = true
+                                    showCrawlDialog.value = true
                                 }
                             )
-                            if (showDialog.value){
+                            if (showCrawlDialog.value){
                                 FilmCrawlDialog(
                                     film = film.data.film,
-                                    onDismiss = {showDialog.value = false}
+                                    onDismiss = {showCrawlDialog.value = false}
                                 )
                             }
                             Text(
                                 text = "Characters",
                                 style = style,
                                 modifier = Modifier.clickable {
-
+                                    navHostController.navigate(Screen.CharactersDetailScreen.route)
                                 }
                             )
-//                            if (showDialog.value){
-//                                FilmCharactersDialog(
-//                                    film = film.data.film,
-//                                    onDismiss = {showDialog.value = false}
-//                                )
-//                            }
                             Text(
-                                text = "Planets", style = style
+                                text = "Planets",
+                                style = style,
+                                modifier = Modifier.clickable {
+                                    navHostController.navigate(Screen.PlanetsDetailScreen.route)
+                                }
                             )
                             Text(
-                                text = "Starships", style = style
+                                text = "Starships",
+                                style = style,
+                                modifier = Modifier.clickable {
+                                    navHostController.navigate(Screen.StarShipsDetailScreen.route)
+                                }
                             )
                             Text(
-                                text = "Species", style = style
+                                text = "Species",
+                                style = style,
+                                modifier = Modifier.clickable {
+                                    navHostController.navigate(Screen.SpeciesDetailScreen.route)
+                                }
                             )
                         }
                     }

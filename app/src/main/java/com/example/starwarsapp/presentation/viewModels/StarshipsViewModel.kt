@@ -25,7 +25,7 @@ class StarshipsViewModel @Inject constructor(
     private val pagingSourceFactory = { database.starshipsDao().getStarships() }
 
     @OptIn(ExperimentalPagingApi::class)
-    val getFilms: Flow<PagingData<StarshipsEntity>> = Pager(
+    val getStarships: Flow<PagingData<StarshipsEntity>> = Pager(
         config = PagingConfig(pageSize = 10),
         remoteMediator = StarshipsRemoteMediator(
             api, database
