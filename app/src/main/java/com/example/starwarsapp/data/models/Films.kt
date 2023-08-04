@@ -1,6 +1,6 @@
 package com.example.starwarsapp.data.models
 
-import com.example.starwarsapp.domain.models.FilmsEntity
+import com.example.starwarsapp.data.models.FilmsEntity
 import com.google.gson.annotations.SerializedName
 
 data class Films(

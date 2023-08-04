@@ -1,10 +1,10 @@
-package com.example.starwarsapp.domain.models
+package com.example.starwarsapp.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "planets_remote_keys_table")
-data class PlanetsRemoteKeys(
+@Entity(tableName = "people_remote_keys_table")
+data class PeopleRemoteKeys(
     @PrimaryKey(autoGenerate = false)
     val id: String,
     val prev: Int?,

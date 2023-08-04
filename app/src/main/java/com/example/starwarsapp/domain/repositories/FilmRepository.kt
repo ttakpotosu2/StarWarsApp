@@ -1,12 +1,12 @@
-package com.example.starwarsapp.domain.repository
+package com.example.starwarsapp.domain.repositories
 
 import com.example.starwarsapp.data.local.StarWarsDatabase
-import com.example.starwarsapp.domain.models.FilmsEntity
-import com.example.starwarsapp.domain.models.PeopleEntity
-import com.example.starwarsapp.domain.models.PlanetsEntity
-import com.example.starwarsapp.domain.models.SpeciesEntity
-import com.example.starwarsapp.domain.models.StarshipsEntity
-import com.example.starwarsapp.domain.models.VehiclesEntity
+import com.example.starwarsapp.data.models.FilmsEntity
+import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.PlanetsEntity
+import com.example.starwarsapp.data.models.SpeciesEntity
+import com.example.starwarsapp.data.models.StarshipsEntity
+import com.example.starwarsapp.data.models.VehiclesEntity
 import javax.inject.Inject
 
 data class FilmInfo(
@@ -14,7 +14,7 @@ data class FilmInfo(
     val species: List<SpeciesEntity>,
     val starships: List<StarshipsEntity>,
     val vehicles: List<VehiclesEntity>,
-    val characters: List<PeopleEntity>,
+    val characters: List<PeopleEntity>, //TODO: Should this be like this???
     val planets: List<PlanetsEntity>
 )
 

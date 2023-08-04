@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
@@ -34,8 +35,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.example.starwarsapp.presentation.layoutModifiers
-import com.example.starwarsapp.presentation.navigation.Screen
-import com.example.starwarsapp.presentation.viewModels.PeopleListCard
+import com.example.starwarsapp.presentation.PeopleListCard
+import com.example.starwarsapp.presentation.navigation.DrawerContent
 import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
@@ -47,91 +48,41 @@ fun PeopleScreen(
     navHostController: NavHostController,
     viewModel: PeopleViewModel = hiltViewModel()
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val people = viewModel.getPeople.collectAsLazyPagingItems()
+    val sortedPeople = people.itemSnapshotList.sortedBy { it?.name }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet(
-                drawerShape = CutCornerShape(bottomEnd = 50.dp),
-                drawerContainerColor = BackgroundGreen,
-                modifier = Modifier.border(
-                    color = TextGreen,
-                    width = 2.dp,
-                    shape = CutCornerShape(bottomEnd = 50.dp)
-                ),
-                content = { DrawerContent(navHostController) }
-            )
-        }
+    Column(
+        modifier = Modifier
+            .background(BackgroundGreen)
+            .fillMaxSize()
     ) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundGreen),
-            topBar = { PeopleScreenTopBar {} },
+        Column(
+            modifier = Modifier.layoutModifiers()
         ) {
-            Column(
-                modifier = Modifier
-                    .background(BackgroundGreen)
-                    .fillMaxSize()
+            Text(
+                text = "People",
+                style = TextStyle(
+                    fontFamily = JetBrainsMono,
+                    fontSize = 44.sp,
+                    color = TextGreen
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            LazyColumn(
+                Modifier.padding(16.dp)
             ) {
-                Column(
-                    modifier = Modifier.layoutModifiers()
-                ) {
-                    Text(
-                        text = "People",
-                        style = TextStyle(
-                            fontFamily = JetBrainsMono,
-                            fontSize = 44.sp,
-                            color = TextGreen
-                        ),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    LazyColumn(
-                        Modifier.padding(16.dp)
-                    ) {
-                        items(
-                            count = people.itemCount,
-                            key = people.itemKey { it.name },
-                            contentType = people.itemContentType()
-                        ) { index ->
-                            val data = people[index]
-                            data?.let {
-                                PeopleListCard(
-                                    people = it,
-                                    onClick = {
-                                        navHostController.navigate(
-                                            Screen.FilmDetailScreen.route + "/${data.name}"
-                                        )
-                                    }
-                                )
+                items(sortedPeople){people ->
+                    if (people != null) {
+                        PeopleListCard(
+                            people = people,
+                            onClick = {
+
                             }
-                        }
+                        )
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun PeopleScreenTopBar(
-    onclick: () -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(16.dp),
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.Menu,
-            contentDescription = null,
-            modifier = Modifier
-                .size(50.dp)
-                .clickable { onclick() },
-            tint = TextGreen,
-        )
-        Spacer(modifier = Modifier.weight(1f))
     }
 }

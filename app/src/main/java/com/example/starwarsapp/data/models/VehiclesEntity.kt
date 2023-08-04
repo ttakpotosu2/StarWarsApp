@@ -1,11 +1,10 @@
-package com.example.starwarsapp.domain.models
+package com.example.starwarsapp.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "starships_table")
-data class StarshipsEntity(
-    val mglt: String,
+@Entity("vehicles_table")
+data class VehiclesEntity(
     val cargoCapacity: String,
     val consumables: String,
     val costInCredits: String,
@@ -13,7 +12,6 @@ data class StarshipsEntity(
     val crew: String,
     val edited: String,
     val films: List<String>,
-    val hyperDriveRating: String,
     val length: String,
     val manufacturer: String,
     val maxAtmospheringSpeed: String,
@@ -21,6 +19,6 @@ data class StarshipsEntity(
     @PrimaryKey(autoGenerate = false) val name: String,
     val passengers: String,
     val pilots: List<String>,
-    val starshipClass: String,
-    val url: String
+    val url: String,
+    val vehicleClass: String
 )

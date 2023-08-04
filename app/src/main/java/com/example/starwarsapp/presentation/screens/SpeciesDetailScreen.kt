@@ -30,7 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.example.starwarsapp.domain.models.SpeciesEntity
+import com.example.starwarsapp.data.models.SpeciesEntity
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.viewModels.SpeciesViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
@@ -46,23 +46,23 @@ fun SpeciesDetailScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val species = viewModel.getSpecies.collectAsLazyPagingItems()
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-        ModalDrawerSheet(
-            drawerShape = CutCornerShape(bottomEnd = 50.dp),
-            drawerContainerColor = BackgroundGreen,
-            modifier = Modifier.border(
-                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-            ),
-            content = { DrawerContent(navHostController) })
-    }) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundGreen),
-            topBar = { FilmsScreenTopBar(onclick = { }) },
-        ) {
+//    ModalNavigationDrawer(
+//        drawerState = drawerState,
+//        drawerContent = {
+//        ModalDrawerSheet(
+//            drawerShape = CutCornerShape(bottomEnd = 50.dp),
+//            drawerContainerColor = BackgroundGreen,
+//            modifier = Modifier.border(
+//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
+//            ),
+//            content = { DrawerContent(navHostController) })
+//    }) {
+//        Scaffold(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(BackgroundGreen),
+//            topBar = { FilmsScreenTopBar(onclick = { }) },
+//        ) {
             Column(
                 modifier = Modifier
                     .background(BackgroundGreen)
@@ -94,17 +94,15 @@ fun SpeciesDetailScreen(
                         ) { index ->
                             val data = species[index]
                             data?.let {
-                                SpeciesDetailCard(planets = it) {
-
-                                }
+                                SpeciesDetailCard(planets = it) {}
                             }
                         }
                     }
                 }
             }
         }
-    }
-}
+//    }
+//}
 
 @Composable
 fun SpeciesDetailCard(
@@ -128,6 +126,5 @@ fun SpeciesDetailCard(
         planets?.homeWorld?.let {
             Text(text = ("Home World: $it"), style = style)
         }
-
     }
 }

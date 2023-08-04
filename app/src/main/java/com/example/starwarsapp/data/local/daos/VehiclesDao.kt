@@ -5,9 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.starwarsapp.domain.models.PeopleEntity
-import com.example.starwarsapp.domain.models.SpeciesEntity
-import com.example.starwarsapp.domain.models.VehiclesEntity
+import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.SpeciesEntity
+import com.example.starwarsapp.data.models.VehiclesEntity
 
 @Dao
 interface VehiclesDao {

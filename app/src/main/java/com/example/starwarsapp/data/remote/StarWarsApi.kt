@@ -8,6 +8,7 @@ import com.example.starwarsapp.data.models.Species
 import com.example.starwarsapp.data.models.Starships
 import com.example.starwarsapp.data.models.Vehicles
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StarWarsApi {
@@ -29,5 +30,8 @@ interface StarWarsApi {
 
     @GET("starships/")
     suspend fun getStarships(@Query("page") page: String): PagedResponse<Starships>
+
+    @GET("people/{people}")
+    suspend fun getMultiplePeople(@Path("people") people: String): List<People>
 
 }

@@ -15,18 +15,18 @@ import com.example.starwarsapp.data.local.daos.StarshipsDao
 import com.example.starwarsapp.data.local.daos.StarshipsRemoteKeysDao
 import com.example.starwarsapp.data.local.daos.VehiclesDao
 import com.example.starwarsapp.data.local.daos.VehiclesRemoteKeysDao
-import com.example.starwarsapp.domain.models.FilmsEntity
-import com.example.starwarsapp.domain.models.FilmsRemoteKeys
-import com.example.starwarsapp.domain.models.PeopleEntity
-import com.example.starwarsapp.domain.models.PeopleRemoteKeys
-import com.example.starwarsapp.domain.models.PlanetsEntity
-import com.example.starwarsapp.domain.models.PlanetsRemoteKeys
-import com.example.starwarsapp.domain.models.SpeciesEntity
-import com.example.starwarsapp.domain.models.SpeciesRemoteKeys
-import com.example.starwarsapp.domain.models.StarshipsEntity
-import com.example.starwarsapp.domain.models.StarshipsRemoteKeys
-import com.example.starwarsapp.domain.models.VehiclesEntity
-import com.example.starwarsapp.domain.models.VehiclesRemoteKeys
+import com.example.starwarsapp.data.models.FilmsEntity
+import com.example.starwarsapp.data.models.FilmsRemoteKeys
+import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.PeopleRemoteKeys
+import com.example.starwarsapp.data.models.PlanetsEntity
+import com.example.starwarsapp.data.models.PlanetsRemoteKeys
+import com.example.starwarsapp.data.models.SpeciesEntity
+import com.example.starwarsapp.data.models.SpeciesRemoteKeys
+import com.example.starwarsapp.data.models.StarshipsEntity
+import com.example.starwarsapp.data.models.StarshipsRemoteKeys
+import com.example.starwarsapp.data.models.VehiclesEntity
+import com.example.starwarsapp.data.models.VehiclesRemoteKeys
 
 @Database(
     entities = [

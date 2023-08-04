@@ -9,8 +9,8 @@ import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.local.caching.FilmsRemoteMediator
 import com.example.starwarsapp.data.local.caching.VehiclesRemoteMediator
 import com.example.starwarsapp.data.remote.StarWarsApi
-import com.example.starwarsapp.domain.models.FilmsEntity
-import com.example.starwarsapp.domain.models.VehiclesEntity
+import com.example.starwarsapp.data.models.FilmsEntity
+import com.example.starwarsapp.data.models.VehiclesEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

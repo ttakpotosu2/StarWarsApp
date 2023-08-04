@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.starwarsapp.domain.repository.FilmRepository
-import com.example.starwarsapp.domain.repository.PersonRepository
-import com.example.starwarsapp.presentation.FilmStates
+import com.example.starwarsapp.domain.repositories.PersonRepository
 import com.example.starwarsapp.presentation.PersonStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

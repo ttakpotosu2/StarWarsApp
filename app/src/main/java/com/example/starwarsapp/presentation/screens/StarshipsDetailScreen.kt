@@ -30,8 +30,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.example.starwarsapp.domain.models.PlanetsEntity
-import com.example.starwarsapp.domain.models.StarshipsEntity
+import com.example.starwarsapp.data.models.PlanetsEntity
+import com.example.starwarsapp.data.models.StarshipsEntity
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.viewModels.StarshipsViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
@@ -47,23 +47,23 @@ fun StarshipsDetailScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val starships = viewModel.getStarships.collectAsLazyPagingItems()
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-        ModalDrawerSheet(
-            drawerShape = CutCornerShape(bottomEnd = 50.dp),
-            drawerContainerColor = BackgroundGreen,
-            modifier = Modifier.border(
-                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-            ),
-            content = { DrawerContent(navHostController) })
-    }) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundGreen),
-            topBar = { FilmsScreenTopBar(onclick = { }) },
-        ) {
+//    ModalNavigationDrawer(
+//        drawerState = drawerState,
+//        drawerContent = {
+//        ModalDrawerSheet(
+//            drawerShape = CutCornerShape(bottomEnd = 50.dp),
+//            drawerContainerColor = BackgroundGreen,
+//            modifier = Modifier.border(
+//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
+//            ),
+//            content = { DrawerContent(navHostController) })
+//    }) {
+//        Scaffold(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(BackgroundGreen),
+//            topBar = { FilmsScreenTopBar(onclick = { }) },
+//        ) {
             Column(
                 modifier = Modifier
                     .background(BackgroundGreen)
@@ -95,17 +95,18 @@ fun StarshipsDetailScreen(
                         ) { index ->
                             val data = starships[index]
                             data?.let {
-                                StarShipsDetailCard(planets = it) {
-
-                                }
+                                StarShipsDetailCard(
+                                    planets = it,
+                                    onItemClick = {}
+                                )
                             }
                         }
                     }
                 }
             }
         }
-    }
-}
+//    }
+//}
 
 @Composable
 fun StarShipsDetailCard(
@@ -122,8 +123,15 @@ fun StarShipsDetailCard(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(text = "Name: " + planets.name, style = style)
-        Text(text = "Capacity: " + planets.cargoCapacity,
-            style = style)
-        Text(text = "Cost: " + planets.costInCredits, style = style)
+        Text(text = "Capacity: " + if (planets.cargoCapacity == "unknown") {
+            planets.cargoCapacity
+        } else {
+            planets.cargoCapacity.toLong().addCommas()
+        }, style = style)
+        Text(text = "Cost: " + if (planets.costInCredits == "unknown") {
+            planets.costInCredits
+        } else {
+            planets.costInCredits.toLong().addCommas() + " credits"
+        }, style = style)
     }
 }

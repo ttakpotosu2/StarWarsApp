@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.starwarsapp.domain.models.FilmsRemoteKeys
+import com.example.starwarsapp.data.models.FilmsRemoteKeys
 
 @Dao
 interface FilmsRemoteKeysDao {

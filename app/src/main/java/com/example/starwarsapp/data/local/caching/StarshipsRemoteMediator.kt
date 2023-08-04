@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.remote.StarWarsApi
-import com.example.starwarsapp.domain.models.StarshipsEntity
-import com.example.starwarsapp.domain.models.StarshipsRemoteKeys
+import com.example.starwarsapp.data.models.StarshipsEntity
+import com.example.starwarsapp.data.models.StarshipsRemoteKeys
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -31,14 +31,6 @@ class StarshipsRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.next?.minus(1) ?: 1
                 }
-                LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prev
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
-                }
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
@@ -47,6 +39,8 @@ class StarshipsRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
+
+                else -> { 1 }
             }
 
             val response = api.getStarships(currentPage.toString())
@@ -82,13 +76,6 @@ class StarshipsRemoteMediator @Inject constructor(
                 starshipsRemoteKeysDao.getStarshipsRemoteKeys(id = it.name)
             }
         }
-    }
-
-    private fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, StarshipsEntity>
-    ): StarshipsRemoteKeys? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { starshipsRemoteKeysDao.getStarshipsRemoteKeys(id = it.name) }
     }
 
     private fun getRemoteKeyForLastItem(

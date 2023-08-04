@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.remote.StarWarsApi
-import com.example.starwarsapp.domain.models.PeopleEntity
-import com.example.starwarsapp.domain.models.PeopleRemoteKeys
+import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.PeopleRemoteKeys
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -39,9 +39,7 @@ class PeopleRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
-                else -> {
-                    1
-                }
+                else -> { 1 }
             }
 
             val response = api.getPeople(currentPage.toString())
@@ -61,6 +59,8 @@ class PeopleRemoteMediator @Inject constructor(
 
                 peopleRemoteKeysDao.addPeopleRemoteKeys(remoteKeys = keys)
                 peopleDao.addPeople(people = response.results.map { it.toPeopleEntity() })
+
+
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

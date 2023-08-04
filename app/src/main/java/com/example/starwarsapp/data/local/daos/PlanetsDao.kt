@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.starwarsapp.domain.models.PlanetsEntity
+import com.example.starwarsapp.data.models.PlanetsEntity
 
 @Dao
 interface PlanetsDao {

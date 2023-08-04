@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.starwarsapp.presentation.screens.CharacterDetailScreen
 import com.example.starwarsapp.presentation.screens.CharactersDetailScreen
 import com.example.starwarsapp.presentation.screens.FilmDetailScreen
 import com.example.starwarsapp.presentation.screens.FilmsScreen
@@ -22,10 +23,14 @@ fun NavGraph(
         composable(
             route = "home_screen"
         ){
-            HomeScreen(navHostController)
+            HomeScreen()
         }
-        composable(route = Screen.FilmsScreen.route){
-            FilmsScreen(navHostController = navHostController)
+        composable(route = Screen.FilmsScreen.route) {
+            FilmsScreen(
+                toFilmDetailScreen = { id ->
+                    navHostController.navigate(Screen.FilmDetailScreen.route + "/${id}")
+                }
+            )
         }
         composable(route = Screen.FilmDetailScreen.route + "/{filmId}"){
             FilmDetailScreen(navHostController)
@@ -44,6 +49,9 @@ fun NavGraph(
         }
         composable(route = Screen.SpeciesDetailScreen.route){
             SpeciesDetailScreen(navHostController = navHostController)
+        }
+        composable(route = Screen.CharacterDetailScreen.route + "/{personId}"){
+            CharacterDetailScreen(navHostController = navHostController)
         }
     }
 }

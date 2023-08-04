@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.remote.StarWarsApi
-import com.example.starwarsapp.domain.models.PlanetsEntity
-import com.example.starwarsapp.domain.models.PlanetsRemoteKeys
+import com.example.starwarsapp.data.models.PlanetsEntity
+import com.example.starwarsapp.data.models.PlanetsRemoteKeys
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -31,14 +31,6 @@ class PlanetsRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.next?.minus(1) ?: 1
                 }
-                LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prev
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
-                }
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
@@ -47,6 +39,8 @@ class PlanetsRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
+
+                else -> { 1 }
             }
 
             val response = api.getPlanets(currentPage.toString())
@@ -82,13 +76,6 @@ class PlanetsRemoteMediator @Inject constructor(
                 planetsRemoteKeysDao.getPlanetsRemoteKeys(id = it.name)
             }
         }
-    }
-
-    private fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, PlanetsEntity>
-    ): PlanetsRemoteKeys? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { planetsRemoteKeysDao.getPlanetsRemoteKeys(id = it.name) }
     }
 
     private fun getRemoteKeyForLastItem(

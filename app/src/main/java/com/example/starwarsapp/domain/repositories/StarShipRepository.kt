@@ -1,9 +1,9 @@
-package com.example.starwarsapp.domain.repository
+package com.example.starwarsapp.domain.repositories
 
 import com.example.starwarsapp.data.local.StarWarsDatabase
-import com.example.starwarsapp.domain.models.FilmsEntity
-import com.example.starwarsapp.domain.models.PeopleEntity
-import com.example.starwarsapp.domain.models.StarshipsEntity
+import com.example.starwarsapp.data.models.FilmsEntity
+import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.StarshipsEntity
 import javax.inject.Inject
 
 data class StarshipInfo(

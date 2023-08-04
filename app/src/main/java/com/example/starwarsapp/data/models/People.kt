@@ -1,6 +1,6 @@
 package com.example.starwarsapp.data.models
 
-import com.example.starwarsapp.domain.models.PeopleEntity
+import com.example.starwarsapp.data.models.PeopleEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 

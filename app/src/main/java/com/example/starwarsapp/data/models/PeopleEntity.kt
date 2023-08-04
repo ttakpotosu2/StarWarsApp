@@ -1,4 +1,4 @@
-package com.example.starwarsapp.domain.models
+package com.example.starwarsapp.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

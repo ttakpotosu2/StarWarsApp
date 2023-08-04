@@ -30,8 +30,9 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.example.starwarsapp.domain.models.PeopleEntity
+import com.example.starwarsapp.data.models.PeopleEntity
 import com.example.starwarsapp.presentation.layoutModifiers
+import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
@@ -47,20 +48,20 @@ fun CharactersDetailScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val people = viewModel.getPeople.collectAsLazyPagingItems()
 
-    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-        ModalDrawerSheet(drawerShape = CutCornerShape(bottomEnd = 50.dp),
-            drawerContainerColor = BackgroundGreen,
-            modifier = Modifier.border(
-                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-            ),
-            content = { DrawerContent(navHostController) })
-    }) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundGreen),
-            topBar = { FilmsScreenTopBar(onclick = { }) },
-        ) {
+//    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
+//        ModalDrawerSheet(drawerShape = CutCornerShape(bottomEnd = 50.dp),
+//            drawerContainerColor = BackgroundGreen,
+//            modifier = Modifier.border(
+//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
+//            ),
+//            content = { DrawerContent(navHostController) })
+//    }) {
+//        Scaffold(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(BackgroundGreen),
+//            topBar = { FilmsScreenTopBar(onclick = { }) },
+//        ) {
             Column(
                 modifier = Modifier
                     .background(BackgroundGreen)
@@ -89,7 +90,9 @@ fun CharactersDetailScreen(
                             val data = people[index]
                             data?.let {
                                 CharactersDetailCard(person = it) {
-
+                                    navHostController.navigate(
+                                        Screen.CharacterDetailScreen.route + "/${data.name}"
+                                    )
                                 }
                             }
                         }
@@ -97,8 +100,8 @@ fun CharactersDetailScreen(
                 }
             }
         }
-    }
-}
+//    }
+//}
 
 @Composable
 fun CharactersDetailCard(

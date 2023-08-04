@@ -6,13 +6,22 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -28,15 +37,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.example.starwarsapp.presentation.FilmCrawlDialog
 import com.example.starwarsapp.presentation.FilmStates
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.presentation.viewModels.FilmViewModel
+import com.example.starwarsapp.presentation.viewModels.FilmsViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono
 import com.example.starwarsapp.ui.theme.TextGreen
 
+@OptIn(ExperimentalLayoutApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FilmDetailScreen(
@@ -47,28 +61,28 @@ fun FilmDetailScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val film = viewModel.film.value
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet(
-                drawerShape = CutCornerShape(bottomEnd = 50.dp),
-                drawerContainerColor = BackgroundGreen,
-                modifier = Modifier.border(
-                    color = TextGreen,
-                    width = 2.dp,
-                    shape = CutCornerShape(bottomEnd = 50.dp)
-                ),
-                content = { DrawerContent(navHostController) }
-            )
-        }
-    ) {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundGreen),
-            topBar = { FilmsScreenTopBar(onclick = { TODO() }) },
-        ) {
-            when (film) {
+//    ModalNavigationDrawer(
+//        drawerState = drawerState,
+//        drawerContent = {
+//            ModalDrawerSheet(
+//                drawerShape = CutCornerShape(bottomEnd = 50.dp),
+//                drawerContainerColor = BackgroundGreen,
+//                modifier = Modifier.border(
+//                    color = TextGreen,
+//                    width = 2.dp,
+//                    shape = CutCornerShape(bottomEnd = 50.dp)
+//                ),
+//                content = { DrawerContent(navHostController) }
+//            )
+//        }
+//    ) {
+//        Scaffold(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(BackgroundGreen),
+//            topBar = { FilmsScreenTopBar(onclick = { TODO() }) },
+//        ) {
+            when(film){
                 is FilmStates.Success -> {
                     Column(
                         modifier = Modifier
@@ -116,23 +130,38 @@ fun FilmDetailScreen(
                             Text(
                                 text = "Read opening crawl",
                                 style = style,
-                                modifier = Modifier.clickable {
-                                    showCrawlDialog.value = true
-                                }
+                                modifier = Modifier.clickable { showCrawlDialog.value = true }
                             )
-                            if (showCrawlDialog.value){
+                            if (showCrawlDialog.value) {
                                 FilmCrawlDialog(
                                     film = film.data.film,
-                                    onDismiss = {showCrawlDialog.value = false}
+                                    onDismiss = { showCrawlDialog.value = false }
                                 )
                             }
+                            Divider(thickness = 2.dp, color = TextGreen)
+                            val info = film.data.characters
                             Text(
-                                text = "Characters",
+                                text = "Characters:",
                                 style = style,
                                 modifier = Modifier.clickable {
-                                    navHostController.navigate(Screen.CharactersDetailScreen.route)
+                                    navHostController.navigate(
+                                        Screen.CharactersDetailScreen.route
+                                    )
                                 }
                             )
+                            FlowRow (
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp),
+                                modifier = Modifier.fillMaxWidth()
+                            ){
+                                info.forEach { person ->
+                                    CharactersDetailCard(person = person) {
+                                        navHostController.navigate(
+                                            Screen.CharactersDetailScreen.route + "/${person.name}"
+                                        )
+                                    }
+                                }
+                            }
                             Text(
                                 text = "Planets",
                                 style = style,
@@ -157,11 +186,13 @@ fun FilmDetailScreen(
                         }
                     }
                 }
-                is FilmStates.Loading -> CircularProgressIndicator(
-                    color = TextGreen,
-                    modifier = Modifier.size(150.dp)
-                )
+                is FilmStates.Loading -> {
+                    CircularProgressIndicator(
+                        color = TextGreen,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
             }
         }
-    }
-}
+//    }
+//}
