@@ -16,7 +16,6 @@ fun Modifier.layoutModifiers(): Modifier {
     return this.then(
         Modifier
             .background(BackgroundGreen)
-            .padding(top = 86.dp)
             .padding(all = 22.dp)
             .clip(CutCornerShape(bottomEnd = 50.dp))
             .fillMaxWidth()

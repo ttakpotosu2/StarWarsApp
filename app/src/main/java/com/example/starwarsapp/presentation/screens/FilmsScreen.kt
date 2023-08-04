@@ -16,11 +16,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsapp.presentation.FilmsListCard
 import com.example.starwarsapp.presentation.layoutModifiers
-import com.example.starwarsapp.presentation.navigation.Screen
 import com.example.starwarsapp.presentation.viewModels.FilmsViewModel
 import com.example.starwarsapp.ui.theme.BackgroundGreen
 import com.example.starwarsapp.ui.theme.JetBrainsMono

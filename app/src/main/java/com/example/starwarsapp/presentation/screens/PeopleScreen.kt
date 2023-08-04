@@ -45,7 +45,6 @@ import com.example.starwarsapp.ui.theme.TextGreen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PeopleScreen(
-    navHostController: NavHostController,
     viewModel: PeopleViewModel = hiltViewModel()
 ) {
     val people = viewModel.getPeople.collectAsLazyPagingItems()

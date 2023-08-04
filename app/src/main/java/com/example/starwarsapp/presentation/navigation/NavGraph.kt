@@ -54,7 +54,7 @@ fun NavGraph(
             )
         }
         composable(route = Screen.PeopleScreen.route){
-            PeopleScreen(navHostController = navHostController)
+            PeopleScreen()
         }
         composable(route = Screen.CharactersDetailScreen.route){
             CharactersDetailScreen(
@@ -64,13 +64,13 @@ fun NavGraph(
             )
         }
         composable(route = Screen.PlanetsDetailScreen.route){
-            PlanetsDetailScreen(navHostController = navHostController)
+            PlanetsDetailScreen()
         }
         composable(route = Screen.StarShipsDetailScreen.route){
-            StarshipsDetailScreen(navHostController = navHostController)
+            StarshipsDetailScreen()
         }
         composable(route = Screen.SpeciesDetailScreen.route){
-            SpeciesDetailScreen(navHostController = navHostController)
+            SpeciesDetailScreen()
         }
         composable(route = Screen.CharacterDetailScreen.route + "/{personId}"){
             CharacterDetailScreen(

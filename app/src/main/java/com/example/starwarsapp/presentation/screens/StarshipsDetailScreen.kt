@@ -41,7 +41,6 @@ import com.example.starwarsapp.ui.theme.TextGreen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StarshipsDetailScreen(
-    navHostController: NavHostController,
     viewModel: StarshipsViewModel = hiltViewModel()
 ) {
     val starships = viewModel.getStarships.collectAsLazyPagingItems()
