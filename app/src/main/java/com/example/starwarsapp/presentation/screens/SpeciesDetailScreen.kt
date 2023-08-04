@@ -43,66 +43,46 @@ fun SpeciesDetailScreen(
     navHostController: NavHostController,
     viewModel: SpeciesViewModel = hiltViewModel()
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val species = viewModel.getSpecies.collectAsLazyPagingItems()
 
-//    ModalNavigationDrawer(
-//        drawerState = drawerState,
-//        drawerContent = {
-//        ModalDrawerSheet(
-//            drawerShape = CutCornerShape(bottomEnd = 50.dp),
-//            drawerContainerColor = BackgroundGreen,
-//            modifier = Modifier.border(
-//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-//            ),
-//            content = { DrawerContent(navHostController) })
-//    }) {
-//        Scaffold(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(BackgroundGreen),
-//            topBar = { FilmsScreenTopBar(onclick = { }) },
-//        ) {
-            Column(
-                modifier = Modifier
-                    .background(BackgroundGreen)
-                    .fillMaxSize()
+    Column(
+        modifier = Modifier
+            .background(BackgroundGreen)
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.layoutModifiers()
+        ) {
+            Text(
+                text = "Species",
+                style = TextStyle(
+                    fontFamily = JetBrainsMono,
+                    fontSize = 44.sp,
+                    color = TextGreen
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            LazyHorizontalStaggeredGrid(
+                rows = StaggeredGridCells.Adaptive(100.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalItemSpacing = 8.dp,
+                contentPadding = PaddingValues(8.dp)
             ) {
-                Column(
-                    modifier = Modifier.layoutModifiers()
-                ) {
-                    Text(
-                        text = "Species",
-                        style = TextStyle(
-                            fontFamily = JetBrainsMono,
-                            fontSize = 44.sp,
-                            color = TextGreen
-                        ),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    LazyHorizontalStaggeredGrid(
-                        rows = StaggeredGridCells.Adaptive(100.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalItemSpacing = 8.dp,
-                        contentPadding = PaddingValues(8.dp)
-                    ) {
-                        items(
-                            count = species.itemCount,
-                            key = species.itemKey { it.name },
-                            contentType = species.itemContentType()
-                        ) { index ->
-                            val data = species[index]
-                            data?.let {
-                                SpeciesDetailCard(planets = it) {}
-                            }
-                        }
+                items(
+                    count = species.itemCount,
+                    key = species.itemKey { it.name },
+                    contentType = species.itemContentType()
+                ) { index ->
+                    val data = species[index]
+                    data?.let {
+                        SpeciesDetailCard(planets = it) {}
                     }
                 }
             }
         }
-//    }
-//}
+    }
+}
 
 @Composable
 fun SpeciesDetailCard(

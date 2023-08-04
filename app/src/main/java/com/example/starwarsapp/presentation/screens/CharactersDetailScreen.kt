@@ -42,66 +42,48 @@ import java.util.Locale
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CharactersDetailScreen(
-    navHostController: NavHostController,
+    toCharacterDetailScreen: (String) -> Unit,
     viewModel: PeopleViewModel = hiltViewModel()
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val people = viewModel.getPeople.collectAsLazyPagingItems()
 
-//    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-//        ModalDrawerSheet(drawerShape = CutCornerShape(bottomEnd = 50.dp),
-//            drawerContainerColor = BackgroundGreen,
-//            modifier = Modifier.border(
-//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-//            ),
-//            content = { DrawerContent(navHostController) })
-//    }) {
-//        Scaffold(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(BackgroundGreen),
-//            topBar = { FilmsScreenTopBar(onclick = { }) },
-//        ) {
-            Column(
-                modifier = Modifier
-                    .background(BackgroundGreen)
-                    .fillMaxSize()
+    Column(
+        modifier = Modifier
+            .background(BackgroundGreen)
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.layoutModifiers()
+        ) {
+            Text(
+                text = "Characters", style = TextStyle(
+                    fontFamily = JetBrainsMono, fontSize = 44.sp, color = TextGreen
+                ), modifier = Modifier.padding(16.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            LazyHorizontalStaggeredGrid(
+                rows = StaggeredGridCells.Adaptive(100.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalItemSpacing = 8.dp,
+                contentPadding = PaddingValues(8.dp)
             ) {
-                Column(
-                    modifier = Modifier.layoutModifiers()
-                ) {
-                    Text(
-                        text = "Characters", style = TextStyle(
-                            fontFamily = JetBrainsMono, fontSize = 44.sp, color = TextGreen
-                        ), modifier = Modifier.padding(16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    LazyHorizontalStaggeredGrid(
-                        rows = StaggeredGridCells.Adaptive(100.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalItemSpacing = 8.dp,
-                        contentPadding = PaddingValues(8.dp)
-                    ) {
-                        items(
-                            count = people.itemCount,
-                            key = people.itemKey { it.name },
-                            contentType = people.itemContentType()
-                        ) { index ->
-                            val data = people[index]
-                            data?.let {
-                                CharactersDetailCard(person = it) {
-                                    navHostController.navigate(
-                                        Screen.CharacterDetailScreen.route + "/${data.name}"
-                                    )
-                                }
-                            }
+                items(
+                    count = people.itemCount,
+                    key = people.itemKey { it.name },
+                    contentType = people.itemContentType()
+                ) { index ->
+                    val data = people[index]
+                    data?.let {
+                        CharactersDetailCard(person = it) {
+                            toCharacterDetailScreen(it.name)
                         }
                     }
                 }
             }
         }
-//    }
-//}
+    }
+}
+
 
 @Composable
 fun CharactersDetailCard(

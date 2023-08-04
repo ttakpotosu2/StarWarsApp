@@ -18,8 +18,10 @@ import com.example.starwarsapp.presentation.screens.StarshipsDetailScreen
 fun NavGraph(
     navHostController: NavHostController
 ) {
-    NavHost(navController = navHostController, startDestination = Screen.HomeScreen.route){
-
+    NavHost(
+        navController = navHostController,
+        startDestination = Screen.HomeScreen.route
+    ){
         composable(
             route = "home_screen"
         ){
@@ -33,13 +35,33 @@ fun NavGraph(
             )
         }
         composable(route = Screen.FilmDetailScreen.route + "/{filmId}"){
-            FilmDetailScreen(navHostController)
+            FilmDetailScreen(
+                toCharacterDetailScreen = { id ->
+                    navHostController.navigate(Screen.CharacterDetailScreen.route + "/${id}")
+                },
+                toCharactersDetailScreen = {
+                    navHostController.navigate(Screen.CharactersDetailScreen.route)
+                },
+                toPlanetDetailScreen = {
+                    navHostController.navigate(Screen.PlanetsDetailScreen.route)
+                },
+                toStarshipDetailScreen = {
+                    navHostController.navigate(Screen.StarShipsDetailScreen.route)
+                },
+                toSpeciesDetailScreen = {
+                    navHostController.navigate(Screen.SpeciesDetailScreen.route)
+                }
+            )
         }
         composable(route = Screen.PeopleScreen.route){
             PeopleScreen(navHostController = navHostController)
         }
         composable(route = Screen.CharactersDetailScreen.route){
-            CharactersDetailScreen(navHostController = navHostController)
+            CharactersDetailScreen(
+                toCharacterDetailScreen = { id ->
+                    navHostController.navigate(Screen.CharacterDetailScreen.route + "/${id}")
+                }
+            )
         }
         composable(route = Screen.PlanetsDetailScreen.route){
             PlanetsDetailScreen(navHostController = navHostController)
@@ -51,7 +73,11 @@ fun NavGraph(
             SpeciesDetailScreen(navHostController = navHostController)
         }
         composable(route = Screen.CharacterDetailScreen.route + "/{personId}"){
-            CharacterDetailScreen(navHostController = navHostController)
+            CharacterDetailScreen(
+                toStarShipsDetailScreen = {
+                    navHostController.navigate(Screen.StarShipsDetailScreen.route)
+                }
+            )
         }
     }
 }

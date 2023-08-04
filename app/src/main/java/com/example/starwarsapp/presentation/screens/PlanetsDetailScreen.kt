@@ -43,68 +43,50 @@ fun PlanetsDetailScreen(
     navHostController: NavHostController,
     viewModel: PlanetsViewModel = hiltViewModel()
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val planets = viewModel.getPlanets.collectAsLazyPagingItems()
 
-//    ModalNavigationDrawer(
-//        drawerState = drawerState,
-//        drawerContent = {
-//        ModalDrawerSheet(
-//            drawerShape = CutCornerShape(bottomEnd = 50.dp),
-//            drawerContainerColor = BackgroundGreen,
-//            modifier = Modifier.border(
-//                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 50.dp)
-//            ),
-//            content = { DrawerContent(navHostController) })
-//    }) {
-//        Scaffold(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(BackgroundGreen),
-//            topBar = { FilmsScreenTopBar(onclick = { }) },
-//        ) {
-            Column(
-                modifier = Modifier
-                    .background(BackgroundGreen)
-                    .fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier.layoutModifiers()
-                ) {
-                    Text(
-                        text = "Planets",
-                        style = TextStyle(
-                            fontFamily = JetBrainsMono,
-                            fontSize = 44.sp,
-                            color = TextGreen
-                        ),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    LazyHorizontalStaggeredGrid(
-                        rows = StaggeredGridCells.Adaptive(100.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalItemSpacing = 8.dp,
-                        contentPadding = PaddingValues(8.dp)
-                    ) {
-                        items(
-                            count = planets.itemCount,
-                            key = planets.itemKey { it.name },
-                            contentType = planets.itemContentType()
-                        ) { index ->
-                            val data = planets[index]
-                            data?.let {
-                                PlanetsDetailCard(planets = it) {
 
-                                }
-                            }
+    Column(
+        modifier = Modifier
+            .background(BackgroundGreen)
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.layoutModifiers()
+        ) {
+            Text(
+                text = "Planets",
+                style = TextStyle(
+                    fontFamily = JetBrainsMono,
+                    fontSize = 44.sp,
+                    color = TextGreen
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            LazyHorizontalStaggeredGrid(
+                rows = StaggeredGridCells.Adaptive(100.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalItemSpacing = 8.dp,
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                items(
+                    count = planets.itemCount,
+                    key = planets.itemKey { it.name },
+                    contentType = planets.itemContentType()
+                ) { index ->
+                    val data = planets[index]
+                    data?.let {
+                        PlanetsDetailCard(planets = it) {
+
                         }
                     }
                 }
             }
         }
-//    }
-//}
+    }
+}
+
 
 @Composable
 fun PlanetsDetailCard(
@@ -121,11 +103,13 @@ fun PlanetsDetailCard(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(text = "Name: " + planets.name, style = style)
-        Text(text = "Population: " + if (planets.population == "unknown") {
-            planets.population
-        } else {
-            planets.population.toLong().addCommas()
-        }, style = style)
+        Text(
+            text = "Population: " + if (planets.population == "unknown") {
+                planets.population
+            } else {
+                planets.population.toLong().addCommas()
+            }, style = style
+        )
         Text(text = "Terrain: " + planets.terrain, style = style)
     }
 }

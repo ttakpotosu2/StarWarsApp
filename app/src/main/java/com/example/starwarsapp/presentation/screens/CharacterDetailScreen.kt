@@ -29,7 +29,7 @@ import com.example.starwarsapp.ui.theme.TextGreen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CharacterDetailScreen(
-    navHostController: NavHostController,
+    toStarShipsDetailScreen: () -> Unit,
     viewModel: PersonViewModel = hiltViewModel()
 ) {
     when (val person = viewModel.person.value) {
@@ -75,9 +75,7 @@ fun CharacterDetailScreen(
                     Text(
                         text = "Starships",
                         style = style,
-                        modifier = Modifier.clickable {
-                            navHostController.navigate(Screen.StarShipsDetailScreen.route)
-                        }
+                        modifier = Modifier.clickable { toStarShipsDetailScreen() }
                     )
                     Text(text = "Vehicles", style = style)
                 }
