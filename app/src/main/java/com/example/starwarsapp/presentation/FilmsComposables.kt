@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.starwarsapp.data.models.FilmsEntity
 import com.example.starwarsapp.data.models.PeopleEntity
-import com.example.starwarsapp.ui.theme.BackgroundGreen
-import com.example.starwarsapp.ui.theme.JetBrainsMono
-import com.example.starwarsapp.ui.theme.TextGreen
+import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
+import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
+import com.example.starwarsapp.presentation.ui.theme.TextGreen
 
 @Composable
 fun FilmsListCard(

@@ -1,6 +1,5 @@
 package com.example.starwarsapp.presentation.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,39 +10,33 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.example.starwarsapp.data.models.PlanetsEntity
 import com.example.starwarsapp.presentation.layoutModifiers
+import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
+import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
+import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.PlanetsViewModel
-import com.example.starwarsapp.ui.theme.BackgroundGreen
-import com.example.starwarsapp.ui.theme.JetBrainsMono
-import com.example.starwarsapp.ui.theme.TextGreen
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PlanetsDetailScreen(
     viewModel: PlanetsViewModel = hiltViewModel()
 ) {
     val planets = viewModel.getPlanets.collectAsLazyPagingItems()
-
 
     Column(
         modifier = Modifier
@@ -61,6 +54,13 @@ fun PlanetsDetailScreen(
                     color = TextGreen
                 ),
                 modifier = Modifier.padding(16.dp)
+            )
+            Divider(
+                thickness = 4.dp,
+                color = TextGreen,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .width(50.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
             LazyHorizontalStaggeredGrid(
@@ -85,7 +85,6 @@ fun PlanetsDetailScreen(
         }
     }
 }
-
 
 @Composable
 fun PlanetsDetailCard(

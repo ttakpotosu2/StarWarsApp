@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.example.starwarsapp.ui.theme.BackgroundGreen
-import com.example.starwarsapp.ui.theme.JetBrainsMono
-import com.example.starwarsapp.ui.theme.TextGreen
+import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
+import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
+import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import kotlinx.coroutines.launch
 
 @Composable

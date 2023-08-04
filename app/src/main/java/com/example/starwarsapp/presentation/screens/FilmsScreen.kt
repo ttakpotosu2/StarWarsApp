@@ -20,9 +20,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsapp.presentation.FilmsListCard
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.viewModels.FilmsViewModel
-import com.example.starwarsapp.ui.theme.BackgroundGreen
-import com.example.starwarsapp.ui.theme.JetBrainsMono
-import com.example.starwarsapp.ui.theme.TextGreen
+import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
+import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
+import com.example.starwarsapp.presentation.ui.theme.TextGreen
 
 @Composable
 fun FilmsScreen(

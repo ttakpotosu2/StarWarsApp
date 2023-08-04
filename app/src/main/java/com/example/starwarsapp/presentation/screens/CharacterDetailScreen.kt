@@ -18,13 +18,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.starwarsapp.presentation.PersonStates
 import com.example.starwarsapp.presentation.layoutModifiers
-import com.example.starwarsapp.presentation.navigation.Screen
+import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
+import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.PersonViewModel
-import com.example.starwarsapp.ui.theme.JetBrainsMono
-import com.example.starwarsapp.ui.theme.TextGreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -35,9 +33,7 @@ fun CharacterDetailScreen(
     when (val person = viewModel.person.value) {
         is PersonStates.Success -> {
             Column(
-                modifier = Modifier
-                    .layoutModifiers()
-                    .fillMaxSize()
+                modifier = Modifier.layoutModifiers().fillMaxSize()
             ) {
                 val style = TextStyle(
                     fontFamily = JetBrainsMono,
@@ -81,7 +77,6 @@ fun CharacterDetailScreen(
                 }
             }
         }
-
         PersonStates.Loading -> {
             CircularProgressIndicator(
                 color = TextGreen,

@@ -1,4 +1,4 @@
-package com.example.starwarsapp.ui.theme
+package com.example.starwarsapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.navigation.compose.rememberNavController
 import com.example.starwarsapp.presentation.navigation.NavScreen
-import com.example.starwarsapp.ui.theme.BackgroundGreen
-import com.example.starwarsapp.ui.theme.StarWarsAppTheme
+import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
+import com.example.starwarsapp.presentation.ui.theme.StarWarsAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                // A surface container using the 'background' color from the theme
-                val navController = rememberNavController()
                 NavScreen()
             }
         }

@@ -1,4 +1,4 @@
-package com.example.starwarsapp.ui.theme
+package com.example.starwarsapp.presentation.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
