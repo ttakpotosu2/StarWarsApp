@@ -1,11 +1,11 @@
 package com.example.starwarsapp.presentation
 
-import com.example.starwarsapp.domain.repositories.FilmInfo
-import com.example.starwarsapp.domain.repositories.PersonInfo
-import com.example.starwarsapp.domain.repositories.PlanetInfo
-import com.example.starwarsapp.domain.repositories.SpecieInfo
-import com.example.starwarsapp.domain.repositories.StarshipInfo
-import com.example.starwarsapp.domain.repositories.VehicleInfo
+import com.example.starwarsapp.data.repositories.FilmInfo
+import com.example.starwarsapp.data.repositories.PersonInfo
+import com.example.starwarsapp.data.repositories.PlanetInfo
+import com.example.starwarsapp.data.repositories.SpecieInfo
+import com.example.starwarsapp.data.repositories.StarshipInfo
+import com.example.starwarsapp.data.repositories.VehicleInfo
 
 sealed class FilmStates {
     object Loading: FilmStates()

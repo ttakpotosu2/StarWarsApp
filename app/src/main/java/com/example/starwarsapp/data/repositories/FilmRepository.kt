@@ -1,4 +1,4 @@
-package com.example.starwarsapp.domain.repositories
+package com.example.starwarsapp.data.repositories
 
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.models.FilmsEntity

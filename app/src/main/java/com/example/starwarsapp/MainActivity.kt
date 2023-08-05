@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
-import androidx.navigation.compose.rememberNavController
 import com.example.starwarsapp.presentation.navigation.NavScreen
 import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
 import com.example.starwarsapp.presentation.ui.theme.StarWarsAppTheme
@@ -25,7 +24,6 @@ class MainActivity : ComponentActivity() {
                         darkIcons = false
                     )
                 }
-
                 NavScreen()
             }
         }

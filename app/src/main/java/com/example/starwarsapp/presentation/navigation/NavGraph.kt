@@ -1,5 +1,6 @@
 package com.example.starwarsapp.presentation.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,6 +15,7 @@ import com.example.starwarsapp.presentation.screens.PlanetsDetailScreen
 import com.example.starwarsapp.presentation.screens.SpeciesDetailScreen
 import com.example.starwarsapp.presentation.screens.StarshipsDetailScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     navHostController: NavHostController
