@@ -33,9 +33,7 @@ fun FilmsScreen(
     val sortedFilms = films.itemSnapshotList.sortedBy { it?.episodeId }
 
     Column(
-        modifier = Modifier
-            .background(BackgroundGreen)
-            .fillMaxSize(),
+        modifier = Modifier.background(BackgroundGreen).fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         Column(
@@ -43,11 +41,7 @@ fun FilmsScreen(
         ) {
             Text(
                 text = "Films",
-                style = TextStyle(
-                    fontFamily = JetBrainsMono,
-                    fontSize = 44.sp,
-                    color = TextGreen
-                ),
+                style = TextStyle(fontFamily = JetBrainsMono, fontSize = 44.sp, color = TextGreen),
                 modifier = Modifier.padding(16.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))

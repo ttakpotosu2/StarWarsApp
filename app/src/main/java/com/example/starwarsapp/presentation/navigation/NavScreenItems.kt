@@ -16,18 +16,18 @@ val navScreenItems = listOf(
     ),
     NavItems(
         label = "Planets",
-        route = Screen.PlanetsDetailScreen.route
+        route = Screen.PlanetsScreen.route
     ),
     NavItems(
         label = "Species",
-        route = Screen.SpeciesDetailScreen.route
+        route = Screen.SpeciesScreen.route
     ),
     NavItems(
         label = "Vehicles",
-        route = Screen.VehiclesDetailScreen.route
+        route = Screen.VehiclesScreen.route
     ),
     NavItems(
         label = "Starships",
-        route = Screen.StarShipsDetailScreen.route
-    ),
+        route = Screen.StarShipsScreen.route
+    )
 )

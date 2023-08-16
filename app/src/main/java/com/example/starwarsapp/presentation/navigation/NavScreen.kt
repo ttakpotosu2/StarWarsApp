@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
@@ -47,7 +47,7 @@ fun NavScreen() {
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
 
-    ModalNavigationDrawer(
+    DismissibleNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet(
                 drawerShape = CutCornerShape(bottomEnd = 50.dp),
@@ -59,15 +59,15 @@ fun NavScreen() {
                 ),
                 content = { DrawerContent(navController, drawerState) }
             )
-        },drawerState = drawerState
+        },
+        drawerState = drawerState,
+        modifier = Modifier.background(BackgroundGreen)
     ) {
         Scaffold(
             topBar = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .background(BackgroundGreen)
-                        .padding(16.dp),
+                    modifier = Modifier.background(BackgroundGreen).padding(16.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Menu,
@@ -99,11 +99,7 @@ fun DrawerContent(
     navController: NavHostController,
     drawerState: DrawerState
 ) {
-    val style = TextStyle(
-        fontSize = 42.sp,
-        fontFamily = JetBrainsMono,
-        color = TextGreen
-    )
+    val style = TextStyle(fontSize = 42.sp, fontFamily = JetBrainsMono, color = TextGreen)
     val scope = rememberCoroutineScope()
 
     Column(

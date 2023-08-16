@@ -1,6 +1,5 @@
 package com.example.starwarsapp.presentation.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,21 +23,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.VehiclesEntity
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.ui.theme.BackgroundGreen
 import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
 import com.example.starwarsapp.presentation.ui.theme.TextGreen
-import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
-import java.util.Locale
+import com.example.starwarsapp.presentation.viewModels.VehiclesViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CharactersDetailScreen(
-    toCharacterDetailScreen: (String) -> Unit,
-    viewModel: PeopleViewModel = hiltViewModel()
+fun VehiclesScreen(
+    toVehicleDetailScreen: (String) -> Unit,
+    viewModel: VehiclesViewModel = hiltViewModel()
 ) {
-    val people = viewModel.getPeople.collectAsLazyPagingItems()
+    val vehicles = viewModel.getVehicles.collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier
@@ -49,9 +46,13 @@ fun CharactersDetailScreen(
             modifier = Modifier.layoutModifiers()
         ) {
             Text(
-                text = "Characters", style = TextStyle(
-                    fontFamily = JetBrainsMono, fontSize = 44.sp, color = TextGreen
-                ), modifier = Modifier.padding(16.dp)
+                text = "Vehicles",
+                style = TextStyle(
+                    fontFamily = JetBrainsMono,
+                    fontSize = 44.sp,
+                    color = TextGreen
+                ),
+                modifier = Modifier.padding(16.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
             LazyHorizontalStaggeredGrid(
@@ -61,15 +62,16 @@ fun CharactersDetailScreen(
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(
-                    count = people.itemCount,
-                    key = people.itemKey { it.name },
-                    contentType = people.itemContentType()
+                    count = vehicles.itemCount,
+                    key = vehicles.itemKey { it.name },
+                    contentType = vehicles.itemContentType()
                 ) { index ->
-                    val data = people[index]
+                    val data = vehicles[index]
                     data?.let {
-                        CharactersDetailCard(person = it) {
-                            toCharacterDetailScreen(it.name)
-                        }
+                        VehiclesDetailCard(
+                            vehicles = it,
+                            onItemClick = { toVehicleDetailScreen(it.name) }
+                        )
                     }
                 }
             }
@@ -77,34 +79,23 @@ fun CharactersDetailScreen(
     }
 }
 
-
 @Composable
-fun CharactersDetailCard(
-    person: PeopleEntity, onItemClick: () -> Unit
+fun VehiclesDetailCard(
+    vehicles: VehiclesEntity, onItemClick: () -> Unit
 ) {
     val style = TextStyle(
         fontFamily = JetBrainsMono, fontSize = 20.sp, color = TextGreen
     )
     Column(
         modifier = Modifier
-            .border(
-                color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 10.dp)
-            )
+            .border(color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 10.dp))
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onItemClick() },
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(text = "Name: " + person.name, style = style)
-        Text(text = "Date of Birth: " + person.birthYear, style = style)
-        Text(
-            text = "Gender: " + person.gender.replaceFirstChar {
-                if (it.isLowerCase()) {
-                    it.titlecase(Locale.getDefault())
-                } else {
-                    it.toString()
-                }
-            },
-            style = style
-        )
+        Text(text = "Name: " + vehicles.name, style = style)
+        Text(text = "Model: " + vehicles.model, style = style)
+        Text(text = "Manufacturer: " + vehicles.manufacturer, style = style)
+
     }
 }

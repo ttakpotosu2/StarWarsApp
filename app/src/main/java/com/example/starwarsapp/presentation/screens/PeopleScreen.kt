@@ -27,6 +27,7 @@ import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PeopleScreen(
+    toCharacterDetailScreen: (String) -> Unit,
     viewModel: PeopleViewModel = hiltViewModel()
 ) {
     val people = viewModel.getPeople.collectAsLazyPagingItems()
@@ -57,7 +58,9 @@ fun PeopleScreen(
                     if (people != null) {
                         PeopleListCard(
                             people = people,
-                            onClick = {}
+                            onClick = {
+                                toCharacterDetailScreen(people.name)
+                            }
                         )
                     }
                 }

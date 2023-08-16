@@ -1,21 +1,21 @@
 package com.example.starwarsapp.presentation.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.starwarsapp.presentation.screens.CharacterDetailScreen
-import com.example.starwarsapp.presentation.screens.CharactersDetailScreen
+import com.example.starwarsapp.presentation.screens.PersonScreen
+import com.example.starwarsapp.presentation.screens.PeopleDetailScreen
 import com.example.starwarsapp.presentation.screens.FilmDetailScreen
 import com.example.starwarsapp.presentation.screens.FilmsScreen
 import com.example.starwarsapp.presentation.screens.HomeScreen
 import com.example.starwarsapp.presentation.screens.PeopleScreen
 import com.example.starwarsapp.presentation.screens.PlanetsDetailScreen
-import com.example.starwarsapp.presentation.screens.SpeciesDetailScreen
+import com.example.starwarsapp.presentation.screens.SpeciesScreen
 import com.example.starwarsapp.presentation.screens.StarshipsDetailScreen
+import com.example.starwarsapp.presentation.screens.VehicleDetailScreen
+import com.example.starwarsapp.presentation.screens.VehiclesScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     navHostController: NavHostController
@@ -23,12 +23,10 @@ fun NavGraph(
     NavHost(
         navController = navHostController,
         startDestination = Screen.HomeScreen.route
-    ){
-        composable(
-            route = "home_screen"
-        ){
-            HomeScreen()
-        }
+    ) {
+        composable(route = Screen.HomeScreen.route) { HomeScreen() }
+
+        //Films
         composable(route = Screen.FilmsScreen.route) {
             FilmsScreen(
                 toFilmDetailScreen = { id ->
@@ -36,50 +34,64 @@ fun NavGraph(
                 }
             )
         }
-        composable(route = Screen.FilmDetailScreen.route + "/{filmId}"){
+        composable(route = Screen.FilmDetailScreen.route + "/{filmId}") {
             FilmDetailScreen(
                 toCharacterDetailScreen = { id ->
-                    navHostController.navigate(Screen.CharacterDetailScreen.route + "/${id}")
+                    navHostController.navigate(Screen.PersonScreen.route + "/${id}")
                 },
                 toCharactersDetailScreen = {
-                    navHostController.navigate(Screen.CharactersDetailScreen.route)
+                    navHostController.navigate(Screen.PeopleDetailScreen.route)
                 },
                 toPlanetDetailScreen = {
-                    navHostController.navigate(Screen.PlanetsDetailScreen.route)
+                    navHostController.navigate(Screen.PlanetsScreen.route)
                 },
                 toStarshipDetailScreen = {
-                    navHostController.navigate(Screen.StarShipsDetailScreen.route)
+                    navHostController.navigate(Screen.StarShipsScreen.route)
                 },
                 toSpeciesDetailScreen = {
-                    navHostController.navigate(Screen.SpeciesDetailScreen.route)
+                    navHostController.navigate(Screen.SpeciesScreen.route)
                 }
             )
         }
-        composable(route = Screen.PeopleScreen.route){
-            PeopleScreen()
-        }
-        composable(route = Screen.CharactersDetailScreen.route){
-            CharactersDetailScreen(
-                toCharacterDetailScreen = { id ->
-                    navHostController.navigate(Screen.CharacterDetailScreen.route + "/${id}")
+        //People
+        composable(route = Screen.PeopleScreen.route) {
+            PeopleScreen(
+                toCharacterDetailScreen = { person ->
+                    navHostController.navigate(Screen.PersonScreen.route + "/${person}")
                 }
             )
         }
-        composable(route = Screen.PlanetsDetailScreen.route){
+        composable(route = Screen.PersonScreen.route + "/{personId}") {
+            PersonScreen()
+        }
+        composable(route = Screen.PeopleDetailScreen.route) {
+            PeopleDetailScreen(
+                toCharacterDetailScreen = { person ->
+                    navHostController.navigate(Screen.PersonScreen.route + "/${person}")
+                }
+            )
+        }
+        //Planets
+        composable(route = Screen.PlanetsScreen.route) {
             PlanetsDetailScreen()
         }
-        composable(route = Screen.StarShipsDetailScreen.route){
+        composable(route = Screen.StarShipsScreen.route) {
             StarshipsDetailScreen()
         }
-        composable(route = Screen.SpeciesDetailScreen.route){
-            SpeciesDetailScreen()
-        }
-        composable(route = Screen.CharacterDetailScreen.route + "/{personId}"){
-            CharacterDetailScreen(
-                toStarShipsDetailScreen = {
-                    navHostController.navigate(Screen.StarShipsDetailScreen.route)
+        //Vehicles
+        composable(route = Screen.VehiclesScreen.route + "/{vehicleId}") {
+            VehiclesScreen(
+                toVehicleDetailScreen = { vehicle ->
+                    navHostController.navigate(Screen.VehicleDetailScreen.route + "/${vehicle}")
                 }
             )
+        }
+        composable(route = Screen.VehicleDetailScreen.route) {
+            VehicleDetailScreen()
+        }
+        //Species
+        composable(route = Screen.SpeciesScreen.route){
+            SpeciesScreen()
         }
     }
 }

@@ -14,7 +14,7 @@ data class FilmInfo(
     val species: List<SpeciesEntity>,
     val starships: List<StarshipsEntity>,
     val vehicles: List<VehiclesEntity>,
-    val characters: List<PeopleEntity>, //TODO: Should this be like this???
+    val characters: List<PeopleEntity>,
     val planets: List<PlanetsEntity>
 )
 

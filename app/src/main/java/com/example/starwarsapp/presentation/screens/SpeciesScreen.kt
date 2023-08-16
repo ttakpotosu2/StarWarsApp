@@ -33,7 +33,7 @@ import com.example.starwarsapp.presentation.viewModels.SpeciesViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SpeciesDetailScreen(
+fun SpeciesScreen(
     viewModel: SpeciesViewModel = hiltViewModel()
 ) {
     val species = viewModel.getSpecies.collectAsLazyPagingItems()
@@ -79,25 +79,25 @@ fun SpeciesDetailScreen(
 
 @Composable
 fun SpeciesDetailCard(
-    planets: SpeciesEntity?, onItemClick: () -> Unit
+    planets: SpeciesEntity, onItemClick: () -> Unit
 ) {
     val style = TextStyle(
-        fontFamily = JetBrainsMono, fontSize = 20.sp, color = TextGreen
+        fontFamily = JetBrainsMono,
+        fontSize = 20.sp,
+        color = TextGreen
     )
     Column(
         modifier = Modifier
-            .border(color = TextGreen, width = 2.dp, shape = CutCornerShape(bottomEnd = 10.dp))
+            .border(
+                color = TextGreen,
+                width = 2.dp,
+                shape = CutCornerShape(bottomEnd = 10.dp))
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onItemClick() },
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        planets?.name?.let {
-            Text(text = ("Name: $it"), style = style)
-        }
-        Text(text = ("Name: " + planets?.name), style = style)
-        Text(text = ("Classification: " + planets?.classification), style = style)
-        planets?.homeWorld?.let {
-            Text(text = ("Home World: $it"), style = style)
-        }
+        Text(text = ("Name: ${planets.name}"), style = style)
+        Text(text = ("Name: ${planets.designation}"), style = style)
+        Text(text = ("Name: ${planets.classification}"), style = style)
     }
 }

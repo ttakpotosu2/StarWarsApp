@@ -1,7 +1,6 @@
 package com.example.starwarsapp.presentation.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +25,7 @@ import com.example.starwarsapp.presentation.viewModels.PersonViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CharacterDetailScreen(
-    toStarShipsDetailScreen: () -> Unit,
+fun PersonScreen(
     viewModel: PersonViewModel = hiltViewModel()
 ) {
     when (val person = viewModel.person.value) {
@@ -60,7 +58,6 @@ fun CharacterDetailScreen(
                     Text(text = "Hair Color: " + person.data.character.hairColor, style = style)
                     Text(text = "Mass: " + person.data.character.mass + "kg", style = style)
                     Text(text = "Skin Color: " + person.data.character.skinColor, style = style)
-                    Text(text = "Skin Color: " + person.data.character.skinColor, style = style)
                     Text(text = "Height: " + person.data.character.height + "cm", style = style)
 
                     Divider(thickness = 2.dp, color = TextGreen)
@@ -68,11 +65,7 @@ fun CharacterDetailScreen(
                     Text(text = "Home World", style = style)
                     Text(text = "Films", style = style)
                     Text(text = "Species", style = style)
-                    Text(
-                        text = "Starships",
-                        style = style,
-                        modifier = Modifier.clickable { toStarShipsDetailScreen() }
-                    )
+                    Text(text = "Starships", style = style)
                     Text(text = "Vehicles", style = style)
                 }
             }
