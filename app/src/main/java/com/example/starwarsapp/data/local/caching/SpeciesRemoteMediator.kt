@@ -39,7 +39,6 @@ class SpeciesRemoteMediator @Inject constructor(
                         )
                     nextPage
                 }
-
                 else -> { 1 }
             }
 

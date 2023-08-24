@@ -36,17 +36,14 @@ fun NavGraph(
         }
         composable(route = Screen.FilmDetailScreen.route + "/{filmId}") {
             FilmDetailScreen(
-                toCharacterDetailScreen = { id ->
-                    navHostController.navigate(Screen.PersonScreen.route + "/${id}")
-                },
-                toCharactersDetailScreen = {
-                    navHostController.navigate(Screen.PeopleDetailScreen.route)
-                },
                 toPlanetDetailScreen = {
                     navHostController.navigate(Screen.PlanetsScreen.route)
                 },
                 toStarshipDetailScreen = {
                     navHostController.navigate(Screen.StarShipsScreen.route)
+                },
+                toCharacterDetailScreen = { id ->
+                    navHostController.navigate(Screen.PersonScreen.route + "/${id}")
                 },
                 toSpeciesDetailScreen = {
                     navHostController.navigate(Screen.SpeciesScreen.route)

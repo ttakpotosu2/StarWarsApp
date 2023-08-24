@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.models.FilmsEntity
 import com.example.starwarsapp.data.models.FilmsRemoteKeys
+import com.example.starwarsapp.data.models.PeopleEntity
 import com.example.starwarsapp.data.remote.StarWarsApi
 import javax.inject.Inject
 
@@ -47,17 +48,18 @@ class FilmsRemoteMediator @Inject constructor(
 
             val filmResponse = api.getFilms(currentPage.toString())
 
-            val getPeopleId = filmResponse.results
+            val allPeople = api.getPeople(currentPage.toString())
+
+            val personId = filmResponse.results
                 .flatMap { it.characters }
                 .mapNotNull { Uri.parse(it).lastPathSegment }
 
-            val ourList = mutableListOf<String>()
+            val peopleList = mutableListOf<PeopleEntity>()
 
-//          3. Loop through the ids and call that endpoint that accepts :id
-            getPeopleId.forEach { id ->
-                ourList.add(api.getMultiplePeople(id).toString())
+            personId.forEach { id ->
+                val person = api.getPerson(id)
+                peopleList.add(person.toPeopleEntity())
             }
-            val peopleResponse = api.getMultiplePeople(getPeopleId.toString())
 
             val endOfPaginationReached = filmResponse.results.isEmpty()
             val prevPage = if (currentPage == 1) null else currentPage - 1
@@ -74,13 +76,14 @@ class FilmsRemoteMediator @Inject constructor(
                 database.filmsRemoteKeysDao().addFilmsRemoteKeys(remoteKeys = keys)
                 database.filmsDao().addFilms(films = filmResponse.results.map { it.toFilmsEntity()})
 
-                database.peopleDao().addPeople(peopleResponse.map { it.toPeopleEntity() })
-
+             //   database.peopleDao().addPeople(people = allPeople.results.map { it.toPeopleEntity() })
+                database.peopleDao().addPeople(people = peopleList)
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             e.printStackTrace()
-            return MediatorResult.Error(e)
+            MediatorResult.Error(e)
         }
     }
 

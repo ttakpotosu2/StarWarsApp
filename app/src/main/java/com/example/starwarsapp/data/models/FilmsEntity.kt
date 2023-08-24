@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "films_table")
 data class FilmsEntity(
-    val characters: List<String>,
+    val characterUrls: List<String>,
     val created: String,
     val director: String,
     val edited: String,

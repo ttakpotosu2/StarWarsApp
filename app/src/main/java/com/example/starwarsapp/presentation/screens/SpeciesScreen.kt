@@ -1,6 +1,5 @@
 package com.example.starwarsapp.presentation.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,7 +30,6 @@ import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
 import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.SpeciesViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SpeciesScreen(
     viewModel: SpeciesViewModel = hiltViewModel()
@@ -69,7 +67,9 @@ fun SpeciesScreen(
                 ) { index ->
                     val data = species[index]
                     data?.let {
-                        SpeciesDetailCard(planets = it) {}
+                        SpeciesDetailCard(species = it) {
+
+                        }
                     }
                 }
             }
@@ -79,7 +79,7 @@ fun SpeciesScreen(
 
 @Composable
 fun SpeciesDetailCard(
-    planets: SpeciesEntity, onItemClick: () -> Unit
+    species: SpeciesEntity, onItemClick: () -> Unit
 ) {
     val style = TextStyle(
         fontFamily = JetBrainsMono,
@@ -96,8 +96,8 @@ fun SpeciesDetailCard(
             .clickable { onItemClick() },
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(text = ("Name: ${planets.name}"), style = style)
-        Text(text = ("Name: ${planets.designation}"), style = style)
-        Text(text = ("Name: ${planets.classification}"), style = style)
+        Text(text = ("Name: ${species.name}"), style = style)
+        Text(text = ("Name: ${species.designation}"), style = style)
+        Text(text = ("Name: ${species.classification}"), style = style)
     }
 }
