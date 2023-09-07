@@ -32,8 +32,8 @@ import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
 import java.util.Locale
 
 @Composable
-fun PeopleDetailScreen(
-    toCharacterDetailScreen: (String) -> Unit,
+fun CharactersScreen(
+    toPersonScreen: (String) -> Unit,
     viewModel: PeopleViewModel = hiltViewModel()
 ) {
     val people = viewModel.getPeople.collectAsLazyPagingItems()
@@ -47,7 +47,7 @@ fun PeopleDetailScreen(
             modifier = Modifier.layoutModifiers()
         ) {
             Text(
-                text = "Characters", style = TextStyle(
+                text = "People", style = TextStyle(
                     fontFamily = JetBrainsMono, fontSize = 44.sp, color = TextGreen
                 ), modifier = Modifier.padding(16.dp)
             )
@@ -66,7 +66,7 @@ fun PeopleDetailScreen(
                     val data = people[index]
                     data?.let {
                         CharactersDetailCard(person = it) {
-                            toCharacterDetailScreen(it.name)
+                            toPersonScreen(it.name)
                         }
                     }
                 }
@@ -74,7 +74,6 @@ fun PeopleDetailScreen(
         }
     }
 }
-
 
 @Composable
 fun CharactersDetailCard(

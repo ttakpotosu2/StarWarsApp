@@ -15,10 +15,10 @@ interface PeopleDao {
     @Query("SELECT * FROM people_table")
     fun getPeople(): PagingSource<Int, PeopleEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPeople(people: List<PeopleEntity>)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updatePeople(updateId: List<PeopleEntity>)
 
     @Query("DELETE FROM people_table")

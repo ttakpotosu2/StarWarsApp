@@ -32,7 +32,8 @@ import com.example.starwarsapp.presentation.viewModels.SpeciesViewModel
 
 @Composable
 fun SpeciesScreen(
-    viewModel: SpeciesViewModel = hiltViewModel()
+    viewModel: SpeciesViewModel = hiltViewModel(),
+    toSpeciesDetailScreen: (String) -> Unit
 ) {
     val species = viewModel.getSpecies.collectAsLazyPagingItems()
 
@@ -67,9 +68,7 @@ fun SpeciesScreen(
                 ) { index ->
                     val data = species[index]
                     data?.let {
-                        SpeciesDetailCard(species = it) {
-
-                        }
+                        SpeciesDetailCard(species = it) { toSpeciesDetailScreen(it.name) }
                     }
                 }
             }
@@ -97,7 +96,7 @@ fun SpeciesDetailCard(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(text = ("Name: ${species.name}"), style = style)
-        Text(text = ("Name: ${species.designation}"), style = style)
-        Text(text = ("Name: ${species.classification}"), style = style)
+        Text(text = ("Designation: ${species.designation}"), style = style)
+        Text(text = ("Classification: ${species.classification}"), style = style)
     }
 }

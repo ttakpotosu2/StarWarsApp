@@ -24,7 +24,6 @@ import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
 import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.PeopleViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PeopleScreen(
     toCharacterDetailScreen: (String) -> Unit,

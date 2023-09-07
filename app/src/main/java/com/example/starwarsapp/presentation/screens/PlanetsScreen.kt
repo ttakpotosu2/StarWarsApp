@@ -33,8 +33,9 @@ import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.PlanetsViewModel
 
 @Composable
-fun PlanetsDetailScreen(
-    viewModel: PlanetsViewModel = hiltViewModel()
+fun PlanetsScreen(
+    viewModel: PlanetsViewModel = hiltViewModel(),
+    toPlanetDetailScreen: (String) -> Unit
 ) {
     val planets = viewModel.getPlanets.collectAsLazyPagingItems()
 
@@ -76,9 +77,7 @@ fun PlanetsDetailScreen(
                 ) { index ->
                     val data = planets[index]
                     data?.let {
-                        PlanetsDetailCard(planets = it) {
-
-                        }
+                        PlanetsListCard(planets = it) { toPlanetDetailScreen(it.name) }
                     }
                 }
             }
@@ -87,7 +86,7 @@ fun PlanetsDetailScreen(
 }
 
 @Composable
-fun PlanetsDetailCard(
+fun PlanetsListCard(
     planets: PlanetsEntity, onItemClick: () -> Unit
 ) {
     val style = TextStyle(

@@ -5,8 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.starwarsapp.data.models.PeopleEntity
-import com.example.starwarsapp.data.models.SpeciesEntity
+import androidx.room.Update
 import com.example.starwarsapp.data.models.VehiclesEntity
 
 @Dao
@@ -16,7 +15,10 @@ interface VehiclesDao {
     fun getVehicle(): PagingSource<Int, VehiclesEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addVehicle(vehicles: List<VehiclesEntity>)
+    suspend fun addVehicles(vehicles: List<VehiclesEntity>)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateVehicles(vehicles: List<VehiclesEntity>)
 
     @Query("DELETE FROM vehicles_table")
     suspend fun deleteVehicle()
@@ -24,6 +26,6 @@ interface VehiclesDao {
     @Query("SELECT * FROM vehicles_table WHERE name = :name ")
     suspend fun getVehicleById(name: String): VehiclesEntity
 
-    @Query("SELECT * FROM vehicles_table WHERE name IN (:name)")
-    suspend fun getExtraVehicles(name: List<String>): List<VehiclesEntity>
+    @Query("SELECT * FROM vehicles_table WHERE url IN (:urls)")
+    suspend fun getExtraVehicles(urls: List<String>): List<VehiclesEntity>
 }

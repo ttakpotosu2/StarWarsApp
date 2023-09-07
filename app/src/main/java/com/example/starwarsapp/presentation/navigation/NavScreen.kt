@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
@@ -47,7 +47,7 @@ fun NavScreen() {
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
 
-    DismissibleNavigationDrawer(
+    ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet(
                 drawerShape = CutCornerShape(bottomEnd = 50.dp),

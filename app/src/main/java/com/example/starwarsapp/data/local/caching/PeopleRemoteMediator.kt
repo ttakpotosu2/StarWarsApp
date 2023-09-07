@@ -1,14 +1,24 @@
 package com.example.starwarsapp.data.local.caching
 
+import android.net.Uri
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.starwarsapp.data.local.StarWarsDatabase
-import com.example.starwarsapp.data.remote.StarWarsApi
+import com.example.starwarsapp.data.models.Films
 import com.example.starwarsapp.data.models.PeopleEntity
 import com.example.starwarsapp.data.models.PeopleRemoteKeys
+import com.example.starwarsapp.data.models.Planets
+import com.example.starwarsapp.data.models.Species
+import com.example.starwarsapp.data.models.Starships
+import com.example.starwarsapp.data.models.Vehicles
+import com.example.starwarsapp.data.remote.StarWarsApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -17,15 +27,12 @@ class PeopleRemoteMediator @Inject constructor(
     private val database: StarWarsDatabase
 ): RemoteMediator<Int, PeopleEntity>() {
 
-    private val peopleDao = database.peopleDao()
-    private val peopleRemoteKeysDao = database.peopleRemoteKeysDao()
-
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PeopleEntity>
-    ): MediatorResult {
-        return try {
+    ): MediatorResult = withContext(Dispatchers.IO) {
 
+        return@withContext try {
             val currentPage = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
@@ -34,7 +41,7 @@ class PeopleRemoteMediator @Inject constructor(
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
-                        ?: return MediatorResult.Success(
+                        ?: return@withContext MediatorResult.Success(
                             endOfPaginationReached = remoteKeys != null
                         )
                     nextPage
@@ -42,14 +49,76 @@ class PeopleRemoteMediator @Inject constructor(
                 else -> { 1 }
             }
 
-            val response = api.getPeople(currentPage.toString())
-            val endOfPaginationReached = response.results.isEmpty()
+            val peopleResponse = async { api.getPeople(currentPage.toString()) }
+            val filmsResponse = async { api.getFilms(currentPage.toString()) }
+            val speciesResponse = async { api.getSpecies(currentPage.toString()) }
+            val vehiclesResponse = async { api.getVehicles(currentPage.toString()) }
+            val starshipsResponse = async { api.getStarships(currentPage.toString()) }
+            val planetsResponse = async { api.getPlanets(currentPage.toString()) }
 
+            val peopleResult = peopleResponse.await()
+            val filmResult = filmsResponse.await()
+            val speciesResult = speciesResponse.await()
+            val vehicleResult = vehiclesResponse.await()
+            val starshipsResult = starshipsResponse.await()
+            val planetsResult = planetsResponse.await()
+
+
+            // Get Films of Person
+            val filmId = peopleResult.results
+                .flatMap { it.films }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val filmsList = mutableListOf<Films>()
+
+            // Get homePlanet
+            val planetId = peopleResult.results
+                .map { it.homeWorld }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val homeWorldList = mutableListOf<Planets>()
+
+            // Get Species of Person
+            val specieId = peopleResult.results
+                .flatMap { it.species }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val speciesList = mutableListOf<Species>()
+
+            // Get Vehicles of Person
+            val vehicleId = peopleResult.results
+                .flatMap { it.vehicles }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val vehicleList = mutableListOf<Vehicles>()
+
+            // Get Starships of Person
+            val starshipId = peopleResult.results
+                .flatMap { it.starships }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val starshipsList = mutableListOf<Starships>()
+
+            val filmsDeferred = filmId.map { async { api.getFilm(it) } }
+            val planetsDeferred = planetId.map { async { api.getPlanet(it) } }
+            val speciesDeferred = specieId.map { async { api.getSpecie(it) } }
+            val vehiclesDeferred = vehicleId.map { async { api.getVehicle(it) } }
+            val starshipsDeferred = starshipId.map { async { api.getStarship(it) } }
+
+            filmsList.addAll(filmsDeferred.awaitAll())
+            homeWorldList.addAll(planetsDeferred.awaitAll())
+            speciesList.addAll(speciesDeferred.awaitAll())
+            vehicleList.addAll(vehiclesDeferred.awaitAll())
+            starshipsList.addAll(starshipsDeferred.awaitAll())
+
+            // Paging
+            val endOfPaginationReached = peopleResult.results.isEmpty()
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
+            val remainingFilms = filmResult.results - filmsList
+            val remainingSpecies = speciesResult.results - speciesList
+            val remainingVehicles = vehicleResult.results - vehicleList
+            val remainingPlanets = planetsResult.results - homeWorldList
+            val remainingStarships = starshipsResult.results - starshipsList
+
             database.withTransaction {
-                val keys = response.results.map {
+                val keys = peopleResult.results.map {
                     PeopleRemoteKeys(
                         id = it.name,
                         prev = prevPage,
@@ -57,15 +126,28 @@ class PeopleRemoteMediator @Inject constructor(
                     )
                 }
 
-                peopleRemoteKeysDao.addPeopleRemoteKeys(remoteKeys = keys)
-                peopleDao.addPeople(people = response.results.map { it.toPeopleEntity() })
+                database.peopleRemoteKeysDao().addPeopleRemoteKeys(remoteKeys = keys)
+                database.peopleDao().addPeople(people = peopleResult.results.map { it.toPeopleEntity() })
 
+                database.filmsDao().addFilms(filmsList.map { it.toFilmsEntity() })
+                database.filmsDao().updateFilms(remainingFilms.map { it.toFilmsEntity() })
 
+                database.speciesDao().addSpecies(speciesList.map { it.toSpeciesEntity() })
+                database.speciesDao().updateSpecies(remainingSpecies.map { it.toSpeciesEntity() })
+
+                database.vehiclesDao().addVehicles(vehicleList.map { it.toVehiclesEntity() })
+                database.vehiclesDao().updateVehicles(remainingVehicles.map { it.toVehiclesEntity() })
+
+                database.planetsDao().addPlanets(homeWorldList.map { it.toPlanetsEntity() })
+                database.planetsDao().updatePlanets(remainingPlanets.map { it.toPlanetsEntity() })
+
+                database.starshipsDao().addStarships(starshipsList.map { it.toStarshipsEntity() })
+                database.starshipsDao().updateStarships(remainingStarships.map { it.toStarshipsEntity() })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
             e.printStackTrace()
-            return MediatorResult.Error(e)
+            MediatorResult.Error(e)
         }
     }
 
@@ -74,7 +156,7 @@ class PeopleRemoteMediator @Inject constructor(
     ): PeopleRemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.let {
-                peopleRemoteKeysDao.getPeopleRemoteKeys(id = it.name)
+                database.peopleRemoteKeysDao().getPeopleRemoteKeys(id = it.name)
             }
         }
     }
@@ -83,6 +165,6 @@ class PeopleRemoteMediator @Inject constructor(
         state: PagingState<Int, PeopleEntity>
     ): PeopleRemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { peopleRemoteKeysDao.getPeopleRemoteKeys(id = it.name) }
+            ?.let { database.peopleRemoteKeysDao().getPeopleRemoteKeys(id = it.name) }
     }
 }

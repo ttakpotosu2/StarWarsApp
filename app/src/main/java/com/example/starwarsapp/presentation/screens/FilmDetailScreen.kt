@@ -1,15 +1,9 @@
 package com.example.starwarsapp.presentation.screens
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,11 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -29,32 +21,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
-import com.example.starwarsapp.data.models.PeopleEntity
-import com.example.starwarsapp.data.models.PlanetsEntity
 import com.example.starwarsapp.presentation.FilmCrawlDialog
 import com.example.starwarsapp.presentation.FilmStates
+import com.example.starwarsapp.presentation.PersonItem
+import com.example.starwarsapp.presentation.PlanetItem
+import com.example.starwarsapp.presentation.SpeciesItem
+import com.example.starwarsapp.presentation.StarshipItem
+import com.example.starwarsapp.presentation.VehicleItem
 import com.example.starwarsapp.presentation.layoutModifiers
 import com.example.starwarsapp.presentation.ui.theme.JetBrainsMono
 import com.example.starwarsapp.presentation.ui.theme.TextGreen
 import com.example.starwarsapp.presentation.viewModels.FilmViewModel
 
-@OptIn(ExperimentalLayoutApi::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+val style = TextStyle(
+    fontFamily = JetBrainsMono,
+    fontSize = 16.sp,
+    color = TextGreen
+)
+
 @Composable
 fun FilmDetailScreen(
-    toPlanetDetailScreen: () -> Unit,
-    toStarshipDetailScreen: () -> Unit,
+    toPlanetDetailScreen: (String) -> Unit,
+    toStarshipDetailScreen: (String) -> Unit,
     toCharacterDetailScreen: (String) -> Unit,
-    toSpeciesDetailScreen: () -> Unit,
+    toSpecieDetailScreen: (String) -> Unit,
+    toVehicleDetailScreen: (String) -> Unit,
     viewModel: FilmViewModel = hiltViewModel()
 ) {
     when (val film = viewModel.film.value) {
@@ -93,15 +89,9 @@ fun FilmDetailScreen(
                 ) {
                     val showCrawlDialog = remember { mutableStateOf(false) }
 
-                    Text(
-                        text = "Directed by: " + film.data.film.director, style = style
-                    )
-                    Text(
-                        text = "Produced by: " + film.data.film.producer, style = style
-                    )
-                    Text(
-                        text = "Released: " + film.data.film.releaseDate, style = style
-                    )
+                    Text(text = "Directed by: " + film.data.film.director, style = style)
+                    Text(text = "Produced by: " + film.data.film.producer, style = style)
+                    Text(text = "Released: " + film.data.film.releaseDate, style = style)
                     Text(
                         text = "Read opening crawl",
                         style = style,
@@ -118,52 +108,117 @@ fun FilmDetailScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(
-                        text = "Characters:",
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        style = style
-                    )
-                    LazyHorizontalStaggeredGrid(
-                        rows = StaggeredGridCells.Fixed(3),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalItemSpacing = 8.dp,
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        modifier = Modifier.height(120.dp)
-                    ) {
-                        items(film.data.characters) { person ->
-                            PersonItem(person = person) {
-                                toCharacterDetailScreen(person.name)
+                    val people = film.data.characters
+                    val peopleSize = people.size
+                    val peopleCount = if (peopleSize < 10) 1 else 3
+                    val peopleHeight = if (peopleSize < 10) 30.dp else 120.dp
+                    if (peopleSize >= 1) {
+                        Text(
+                            text = "Characters:",
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            style = style
+                        )
+                        LazyHorizontalStaggeredGrid(
+                            rows = StaggeredGridCells.Fixed(peopleCount),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalItemSpacing = 8.dp,
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            modifier = Modifier.height(peopleHeight)
+                        ) {
+                            items(film.data.characters) { person ->
+                                PersonItem(person = person) { toCharacterDetailScreen(person.name) }
                             }
                         }
                     }
-                    Text(
-                        text = "Planets",
-                        style = style,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                    )
-                    LazyHorizontalStaggeredGrid(
-                        rows = StaggeredGridCells.Fixed(3),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalItemSpacing = 8.dp,
-                        contentPadding = PaddingValues(horizontal = 16.dp),
-                        modifier = Modifier.height(120.dp)
-                    ) {
-                        items(film.data.planets) { planet ->
-                            PlanetItem(planet = planet) {
-
+                    val planet = film.data.planets
+                    val planetsSize = planet.size
+                    val count = if (planetsSize < 10) 1 else 3
+                    val height = if (planetsSize < 10) 30.dp else 120.dp
+                    if (planetsSize >= 1) {
+                        Text(
+                            text = "Planets",
+                            style = style,
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                        )
+                        LazyHorizontalStaggeredGrid(
+                            rows = StaggeredGridCells.Fixed(count),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalItemSpacing = 8.dp,
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            modifier = Modifier.height(height)
+                        ) {
+                            items(planet) { planet ->
+                                PlanetItem(planet = planet) { toPlanetDetailScreen(planet.name) }
                             }
                         }
                     }
-                    Text(
-                        text = "Starships",
-                        style = style,
-                        modifier = Modifier.clickable { toStarshipDetailScreen() }
-                    )
-                    Text(
-                        text = "Species",
-                        style = style,
-                        modifier = Modifier.clickable { toSpeciesDetailScreen() }
-                    )
+                    val vehicle = film.data.vehicles
+                    val vehiclesSize = vehicle.size
+                    val vehicleCount = if (vehiclesSize < 10) 1 else 3
+                    val vehicleHeight = if (vehiclesSize < 10) 30.dp else 120.dp
+                    if (vehiclesSize >= 1) {
+                        Text(
+                            text = "Vehicles:",
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            style = style
+                        )
+                        LazyHorizontalStaggeredGrid(
+                            rows = StaggeredGridCells.Fixed(vehicleCount),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalItemSpacing = 8.dp,
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            modifier = Modifier.height(vehicleHeight)
+                        ) {
+                            items(vehicle) { vehicle ->
+                                VehicleItem(vehicles = vehicle) { toVehicleDetailScreen(vehicle.name) }
+                            }
+                        }
+                    }
+                    val starship = film.data.starships
+                    val starshipSize = starship.size
+                    val starshipCount = if (starshipSize < 10) 1 else 3
+                    val starshipHeight = if (starshipSize < 10) 30.dp else 120.dp
+                    if (starshipSize >= 1) {
+                        Text(
+                            text = "Starships",
+                            style = style,
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                        )
+                        LazyHorizontalStaggeredGrid(
+                            rows = StaggeredGridCells.Fixed(starshipCount),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalItemSpacing = 8.dp,
+                            contentPadding = PaddingValues(horizontal = 16.dp),
+                            modifier = Modifier.height(starshipHeight)
+                        ) {
+                            items(starship) { starship ->
+                                StarshipItem(starship = starship) { toStarshipDetailScreen(starship.name) }
+                            }
+                        }
+                        val species = film.data.species
+                        val speciesSize = species.size
+                        val speciesCount = if (speciesSize < 10) 1 else 3
+                        val speciesHeight = if (speciesSize < 10) 30.dp else 120.dp
+                        if (speciesSize >= 1) {
+                            Text(
+                                text = "Species",
+                                style = style,
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                            )
+                            LazyHorizontalStaggeredGrid(
+                                rows = StaggeredGridCells.Fixed(speciesCount),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
+                                horizontalItemSpacing = 8.dp,
+                                contentPadding = PaddingValues(horizontal = 16.dp),
+                                modifier = Modifier.height(speciesHeight)
+                            ) {
+                                items(species) { species ->
+                                    SpeciesItem(species = species) { toSpecieDetailScreen(species.name) }
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
@@ -173,66 +228,6 @@ fun FilmDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .size(150.dp)
-            )
-        }
-    }
-}
-
-val style = TextStyle(
-    fontFamily = JetBrainsMono,
-    fontSize = 16.sp,
-    color = TextGreen
-)
-
-@Composable
-fun PersonItem(
-    person: PeopleEntity?,
-    onItemClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .border(
-                color = TextGreen,
-                width = 1.dp,
-                shape = CutCornerShape(bottomEnd = 5.dp)
-            )
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable { onItemClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        person?.name?.let {
-            Text(
-                text = it,
-                style = style,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-fun PlanetItem(
-    planet: PlanetsEntity?,
-    onItemClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .border(
-                color = TextGreen,
-                width = 1.dp,
-                shape = CutCornerShape(bottomEnd = 5.dp)
-            )
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable { onItemClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        planet?.name?.let {
-            Text(
-                text = it,
-                style = style,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
             )
         }
     }

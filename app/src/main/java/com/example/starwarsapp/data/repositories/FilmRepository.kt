@@ -25,9 +25,9 @@ class FilmRepository @Inject constructor(
         val film = database.filmsDao().getFilmsById(filmsId)
         val species = database.speciesDao().getExtraSpecies(film.species)
         val starships = database.starshipsDao().getExtraStarships(film.starships)
-        val vehicles = database.vehiclesDao().getExtraVehicles(film.vehicles)
+        val vehicles = database.vehiclesDao().getExtraVehicles(film.vehiclesUrls)
         val characters = database.peopleDao().getExtraPeople(film.characterUrls)
-        val planets = database.planetsDao().getExtraPlanets(film.planets)
+        val planets = database.planetsDao().getExtraPlanets(film.planetUrls)
 
         return FilmInfo(
             film, species, starships, vehicles, characters, planets

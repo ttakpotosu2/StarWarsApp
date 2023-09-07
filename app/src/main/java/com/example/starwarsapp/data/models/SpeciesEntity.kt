@@ -14,7 +14,7 @@ data class SpeciesEntity(
     val eyeColors: String,
     val films: List<String>,
     val hairColors: String,
-    val homeWorld: String,
+    val homeWorld: String? = "not available",
     val language: String,
     @PrimaryKey(autoGenerate = false) val name: String,
     val people: List<String>,

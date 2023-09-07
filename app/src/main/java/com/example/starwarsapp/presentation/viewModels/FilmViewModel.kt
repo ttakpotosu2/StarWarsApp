@@ -30,4 +30,4 @@ class FilmViewModel @Inject constructor(
             _film.value = FilmStates.Success(data = result)
         }
     }
-}
+}//TODO: add loader, add paging

@@ -3,6 +3,7 @@ package com.example.starwarsapp.data.repositories
 import com.example.starwarsapp.data.local.StarWarsDatabase
 import com.example.starwarsapp.data.models.FilmsEntity
 import com.example.starwarsapp.data.models.PeopleEntity
+import com.example.starwarsapp.data.models.PlanetsEntity
 import com.example.starwarsapp.data.models.SpeciesEntity
 import com.example.starwarsapp.data.models.StarshipsEntity
 import com.example.starwarsapp.data.models.VehiclesEntity
@@ -13,7 +14,8 @@ data class PersonInfo(
     val films: List<FilmsEntity>,
     val species: List<SpeciesEntity>,
     val starships: List<StarshipsEntity>,
-    val vehicles: List<VehiclesEntity>
+    val vehicles: List<VehiclesEntity>,
+    val homeWorld: PlanetsEntity?
 )
 
 class PersonRepository @Inject constructor(
@@ -26,9 +28,9 @@ class PersonRepository @Inject constructor(
         val species = database.speciesDao().getExtraSpecies(person.species)
         val starships = database.starshipsDao().getExtraStarships(person.starships)
         val vehicles = database.vehiclesDao().getExtraVehicles(person.vehicles)
-
+        val homeWorld = person.homeWorld?.let { database.planetsDao().getHomeWorld(it) }
         return PersonInfo(
-            person, films, species, starships, vehicles
-        )
+                person, films, species, starships, vehicles, homeWorld
+            )
     }
 }

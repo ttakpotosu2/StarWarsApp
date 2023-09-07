@@ -96,6 +96,5 @@ fun VehiclesDetailCard(
         Text(text = "Name: " + vehicles.name, style = style)
         Text(text = "Model: " + vehicles.model, style = style)
         Text(text = "Manufacturer: " + vehicles.manufacturer, style = style)
-
     }
 }

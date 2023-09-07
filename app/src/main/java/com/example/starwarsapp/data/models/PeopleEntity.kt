@@ -13,7 +13,7 @@ data class PeopleEntity(
     val gender: String,
     val hairColor: String,
     val height: String,
-    val homeWorld: String,
+    val homeWorld: String? = "not available",
     val mass: String,
     @PrimaryKey(autoGenerate = false) val name: String,
     val skinColor: String,
