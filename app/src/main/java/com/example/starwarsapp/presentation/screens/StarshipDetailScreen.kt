@@ -92,7 +92,7 @@ fun StarshipDetailScreen(
                         },
                         style = style
                     )
-                    Text(text = "Length: " + starship.data.starship.length.toLong().addCommas() + "m", style = style)
+                    Text(text = "Length: " + starship.data.starship.length + "m", style = style)
                     Text(text = "Crew: " + starship.data.starship.crew, style = style)
                     Text(text = "Passengers: " + starship.data.starship.passengers, style = style)
                     Text(
@@ -104,7 +104,11 @@ fun StarshipDetailScreen(
                         style = style
                     )
                     Text(
-                        text = "Cargo Capacity: " + starship.data.starship.cargoCapacity.toLong().addCommas(),
+                        text = "Cargo Capacity: " + if(starship.data.starship.cargoCapacity == "unknown"){
+                            starship.data.starship.cargoCapacity
+                        } else {
+                            starship.data.starship.cargoCapacity.toLong().addCommas()
+                        },
                         style = style
                     )
 
@@ -159,6 +163,7 @@ fun StarshipDetailScreen(
                             }
                         }
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }

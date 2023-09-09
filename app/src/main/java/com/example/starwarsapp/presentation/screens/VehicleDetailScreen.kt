@@ -67,7 +67,7 @@ fun VehicleDetailScreen(
                         text = "Manufacturer: " + vehicles.data.vehicle.manufacturer,
                         style = style
                     )
-                    Text(text = "Length: " + vehicles.data.vehicle.length, style = style)
+                    Text(text = "Length: " + vehicles.data.vehicle.length + "m", style = style)
                     Text(
                         text = "Max Speed: " + vehicles.data.vehicle.maxAtmospheringSpeed,
                         style = style
