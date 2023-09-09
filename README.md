@@ -16,5 +16,3 @@ Tech Stach
 ![13](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/3fe53468-1010-45b2-ac2e-fcb5c23c2215)
 ![14](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/a2bb5ffe-f45b-4f22-ad26-8cb83bbf923d)
 ![15](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/1fdd516d-3768-4421-87f2-118a88572733)
-
-## Screen Recordings of a few flows in the app.
