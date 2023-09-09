@@ -7,13 +7,14 @@ Tech Stach
 4. Room
 5. Paging 3
 6. Jetpack Compose
+7. Navigation Compose
 
 ## Screenshots posted below. [Project is currently being built, more screenshot will be added in due time.]
 
-![1](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/2daf1fca-8d3d-4bd6-abac-96738cb01580)
-![3](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/0d877049-3143-4d60-a5bc-52d34ce4b9bf)
-![2](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/1dd1701e-42a3-4a1f-878f-fa3aa7307bd7)
+![11](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/8b81539d-576d-4b83-815c-5535e20d32a4)
+![12](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/45f42f6f-217f-45b3-a3fa-497981ddfeb7)
+![13](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/58043088-0551-4fd5-afdb-071d3d832bfd)
+![14](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/a0798fb4-59a7-4b48-97d3-7e82f5e779ca)
+![15](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/6b5b5327-c875-4654-acf7-d7224be1dc14)
 
 ## Screen Recordings of a few flows in the app.
-
-![Screen_recording_20230730_001130](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/af1cedf8-77d1-4015-9598-251336131f89)
