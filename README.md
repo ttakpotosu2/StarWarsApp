@@ -11,10 +11,11 @@ Tech Stach
 
 ## Screenshots posted below. [Project is currently being built, more screenshot will be added in due time.]
 
-![11](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/8b81539d-576d-4b83-815c-5535e20d32a4)
-![12](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/45f42f6f-217f-45b3-a3fa-497981ddfeb7)
-![13](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/58043088-0551-4fd5-afdb-071d3d832bfd)
-![14](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/a0798fb4-59a7-4b48-97d3-7e82f5e779ca)
-![15](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/6b5b5327-c875-4654-acf7-d7224be1dc14)
+![12](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/a4e05347-c5a8-4ea6-8747-f12cd89ccfd6)
+![13](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/3fe53468-1010-45b2-ac2e-fcb5c23c2215)
+![14](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/a2bb5ffe-f45b-4f22-ad26-8cb83bbf923d)
+![15](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/1fdd516d-3768-4421-87f2-118a88572733)
+![11](https://github.com/ttakpotosu2/StarWarsApp/assets/105734117/92e5d4c3-bd3d-49f1-abe1-d62054b3eb98)
+
 
 ## Screen Recordings of a few flows in the app.
