@@ -92,9 +92,9 @@ fun StarshipDetailScreen(
                         },
                         style = style
                     )
-                    Text(text = "Length: " + starship.data.starship.length + "m", style = style)
+                    Text(text = "Length: " + starship.data.starship.length.toLong().addCommas() + "m", style = style)
                     Text(text = "Crew: " + starship.data.starship.crew, style = style)
-                    Text(text = "Passengers: " + starship.data.starship.passengers.toLong().addCommas(), style = style)
+                    Text(text = "Passengers: " + starship.data.starship.passengers, style = style)
                     Text(
                         text = "Max Atmospheric Screen: " + starship.data.starship.maxAtmospheringSpeed,
                         style = style
